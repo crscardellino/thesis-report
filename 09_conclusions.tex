@@ -1,0 +1,252 @@
+\section{Contributions}
+
+The experimentation of this thesis showed that the lack of data produces a
+tendency to overfit in purely supervised learning models, together with small
+coverage. To tackle these problems I explored different semi-supervised
+methods, each one with advantages and disadvantages on their own. The {\em
+ladder network} model was found the most promising one in terms of taking
+advantage of the unlabeled data to improve the performance of purely supervised
+models.
+
+My proposed goal for this thesis was to study how different semi-supervised
+techniques could improve a task that would greatly benefit from them.
+Throughout the experiments and results of this work I researched on the
+properties, benefits, and shortcomings of different semi-supervised approaches
+on a particular task. To select the task I decided to explore a domain which
+would effectively find it useful the use of a semi-supervised technique. I did
+not want just to use some toy dataset on which the properties of
+semi-supervised learning would apply just because it was designed to have such
+results. What I was interested in was a task that had its own set of
+challenges, and in particular, a task that had already the ideal setting which
+would make semi-supervised learning an logical solution: the task should have a
+small amount of labeled data, good enough for a baseline solution, and large
+amount of unlabeled data.
+
+Word sense disambiguation, as discussed in the introduction of this work, is a
+fundamental task in the field of natural language processing. It is what is
+known as an intermediate task, needed for more complex tasks such as machine
+translation or information extraction. In particular, the task of \vsd is
+useful in relation extraction, as a verb is the lexical piece that establishes
+the relations betwen the participants in a sentence. My particular interest
+inside the area of \vsd was the area of Spanish \vsd. In this area there has
+been only minimial previous work, as most of the work in disambiguation is for
+nouns. In particular, I was interested in the task of Spanish \vsd~because of
+the availability of the SenSem corpus, which is a manually disambiguated corpus
+for Spanish verbs. This resource gives a supervised baseline and the initial
+seed needed for semi-supervised methods. On the other hand, the resources
+available for unlabeled data are more than enough for the unsupervised part of
+the semi-supervised tasks.
+
+Chapter \ref{chapter:supervised} starts by exploring the different supervised
+algorithms to bring their shortcomings into focus and plan how I could address
+them as challenges. The chapter does a research on different techniques using
+what I called {\em hand-crafted features}, i.e. features taken from the labeled
+corpus itself. First, the chapter's main focus was to set a common ground for
+the experimentation avoiding an exponential explosion of possible experiments
+and results that would have become impossible to analyze and draw conclusions
+from.  This starting point was set to explore different ways of representing
+the data and to reduce the resources consumed by those representations using
+dimensionality reduction techniques. The chapter then explores also different
+classifiers, linear and non-linear, to rule out big differences before
+selecting one of them. Once the base structure of the experiments is set, the
+chapter explores how the number of labeled data in a model can impact on the
+final performance of the model. What the experimentation results show is that
+the main problem of the supervised approach is the lack of labeled data to
+train a good model that can generalize well. In particular, the model is
+trained over a labeled dataset of a specific domain, which makes the challenge
+of overfitting even worse. On the other hand, the model has little information:
+the coverage is greatly affected by the few available examples to train. Once
+the results of this chapter were clear, in successive chapters I explored the
+impact of different semi-supervised learning techniques on these two
+challenges: overfitting of the model in the training dataset, and coverage of
+the model by adding more information from new examples.
+
+Chapter \ref{chapter:embeddings} introduced the use of {\em word embeddings} as
+an alternative representation of the instances used to train the classifier.
+This is known as {\em disjoint semi-supervised learning}, where an unsupervised
+task is performed previously (i.e. training word embeddings) and the result of
+this task is integrated into a supervised task (i.e. \vsd). This chapter
+explored how the use of word embeddings impacts on a supervised classifier. In
+particular, the chapter experimented on different types of word embeddings
+trained with different domains. Those embeddings trained on the same domain as
+the labeled dataset (i.e. journalistic domain) improve the performance of the
+supervised classifier. However, the supervised classifier trained with word
+embeddings representations did not reach the performance levels of the model
+trained with hand-crafted features. Although this could be interpreted as a
+problem, successive chapters show the contrary. The purely supervised model
+obtained better performance figures than the model based on word embeddings
+because hand-crafted features were closer to the data, thus having a higher
+tendency to overfit. Other experiments in this chapter and the analysis of
+results showed that, in contrast, word embeddings are a good representation to
+reduce the model's tendency to overfit the training data. This is more strongly
+supported by evidence in Chapter \ref{chapter:self-learning}, with experiments
+in a more general corpus.
+
+Chapter \ref{chapter:self-learning} was the first to introduce a {\em joint
+learning} algorithm in which both the labeled and the unlabeled dataset
+contribute to the task of semi-supervised learning. The chapter explores {\em
+self-learning}, a wrapper algorithm over a supervised classifier. In this
+scheme, the labeled dataset serves as an initial seed to train a base model for
+a classifier. This classifier is used to augment the information available in
+the model by automatically annotating new instances from an unlabeled dataset
+based on certainty and adding them as labeled instances to train a new model.
+This process is repeated iteratively to have more and more training examples
+taken from the unlabeled data. The experiments in this chapter explored how
+this new data affected the performance of the model. In particular, I wanted
+to see how the new data effectively increased the initial model with more
+information gathered from the new instances. This new information could help
+expanding the model's coverage. Adding new examples of a new dataset would also
+help the model prevent the tendency to overfit. However, what I found was that
+the expansion of the model's coverage was done at expense of the quality of the
+model. The self-learning algorithm had problems specially when dealing with a
+largely unbalanced dataset, that is, with a clearly majority class. This
+configuration is common in a task such as Spanish \vsd, as well as for any \nlp
+task, because of the Zipfian distribution of natural language itself. Then,
+while more information seems to be added to the model, what is actually
+happening is that the model is drifting to classify new data almost exclusively
+as part of the most frequent class in the dataset. Then, the model did not
+actually expand its coverage, but it was just blurring the decision boundaries
+of the original supervised classifier. From this chapter however there was an
+important finding given by the general results and performance obtained with
+word embeddings. These last were proven to behave much better than hand-crafted
+features. They represented minority classes better, mitigating the drift to the
+majority class. As they are trained from a more general domain than
+hand-crafted features, they also dealt better with the change of domain given 
+by the unlabeled instances the self-learning algorithm used to expand the 
+supervised model.
+
+Chapter \ref{chapter:active} explored a second joint learning technique: {\em
+active learning}. Like self-learning, this is also al wrapper algorithm. It
+trains based on an initial seed and then adds examples from an unlabeled pool
+of available instances. These instances serve to augment the pool of labeled
+examples which are used to train a new model which is used again to fetch new
+data to add. The main difference between this algorithm and self-learning is
+the way the unlabeled dataset is annotated. In self-learning the annotation is
+automatic, and automatically annotated instances are included as training if
+the classifier has high confidence over the instance. In contrast, active
+learning uses a human (generally a domain expert) to annotate unlabeled
+examples selected in an ``intelligent'' way. This means instances should be
+those which, once annotated, have the largest impact on the new model,
+increasing its certainty or reducing error. The experimentation done for this
+chapter was merely exploratory, because the active learning approach is by
+itself an expensive method that requires manual annotation. However, results
+were promising enough to have some insights on how this method could help
+improve the task of Spanish \vsd. The results of the chapter were interesting
+because the model not only improved on the most frequent classes but also in
+the less frequent classes as well. Moreover, because of the algorithm's way to
+select instances for annotation, it did not suffer from the drifting to the
+most frequent class that self-learning showed. Indeed, active learning was
+shown to increase the model's information with less examples provided in
+comparison.  But, as it requires a human annotator in order to work, active
+learning becomes an expensive approach for semi-supervised learning.
+
+Finally, chapter \ref{chapter:ladder} explored a fairly new semi-supervised
+learning technique: {\em the ladder network}. In this neural network, the
+architecture is designed to train the parameters by optimizing a cost function
+that is a combination of a supervised cost function and an unsupervised cost
+function. The neural network has an architecture that resembles that of an
+autoencoder, with an encoder and a decoder paths. The encoder path is given by
+a feed-forward neural network with an output layer that is trained by using a
+supervised cost function. The decoder path is used to reconstruct the training
+instances and thus helps smooth the neural network by avoiding overfitting to a
+small supervised dataset. In this model the unlabeled examples are not tagged
+and added to the model as in previous algorithms. Still, unlabeled instances
+still help to expand the coverage of the model as the information they provide
+is integrated to that of the labeled dataset. The experiments in this chapter
+explored the use of ladder networks as an alternative semi-supervised approach
+that overcomes the shortcoming of self-learning that adds new instances only as
+if they were part of the most frequent class. Also, the ladder network model
+overcomes the problem of active learning, that is, the cost of manual
+annotation. The results of the chapter were promising as the ladder network had
+good performance results, not only in the most frequent class but in all
+classes in general. Very often it surpassed the results obtained by a purely
+supervised approach or active learning. The use of unlabeled data to help
+training the model added more information which would help to expand the
+coverage of the model. Moreover, the model proved to be able to avoid
+overfitting as the unlabeled examples and the unsupervised cost function
+prevented the supervised part to overfit the labeled data. Ladder networks
+showed impressive results coming from a purely automatic process for
+semi-supervised learning and is a good candidate to keep exploring.
+
+\section{Future Work}
+
+The main obstacle through the experiments done in this thesis was the
+unbalanced dataset. The presence of a majority class which unbalanced the
+distribution of the classes is something common for a task in natural language
+processing. This unbalance had great impact in how the semi-supervised
+techniques could work their way in the task of Spanish \vsd. As I saw in
+Chapter \ref{chapter:self-learning}, the problem of unbalance, even if it was
+small at the beginning, can quickly grow and end up hitting on the algorithm's
+quality, making the final model useless. Unbalanced classes is a problem on its
+own right, that I could not cover more thoroughly in this work.  There are
+techniques, besides oversampling or undersampling, which help dealing with this
+kind of situations and that would require further exploration in future work.
+However, the best approach so far to deal with the problem of unbalance and
+bias to the most frequent class was given by active learning with uncertainty
+sampling, which by design would tend to add those instances the model had less
+information about, i.e. the less frequent classes.
+
+The domain of the labeled corpus also had a great impact in the experiments and
+results I analyzed through this thesis. The labeled corpus was the base
+resource to work with in this thesis and as such the quality of the resource
+impacted directly on how good the models could be. It is important to note that
+as it was a heavily domain-based resource, it could also obscure some of the
+results, e.g. when it showed a better performance for the hand-crafted features
+than the word embeddings just because the latter generalized better. This put
+in consideration how I interpret the results: a model that shows a drop in
+performance in comparison to another model is not automatically a bad model.
+Sometimes there are other metrics and other views of the data that help
+identify what a model is leaving out in order to gain performance, for example,
+representativity of minority classes or better generalization to data from
+other domains. Also, the heavy influence on the domain showed the importance of
+having more heterogeneous data in order to seek a good model. Indeed,
+semi-supervised learning techniques, which acquired information from a corpus
+from a general domain, improved some aspects of the original model, which was
+too close to the labeled dataset.
+
+The two main challenges tackled in this work were coverage, observed as the
+information actionable by the model, as well as tendency to overfit or
+generalize. These challenges were direct results of having a small amount of
+labeled data and such data being part of a very specific domain.
+Semi-supervised techniques were explored in order to overcome these two
+challenges. It is left for future work to carry out experiments that are more
+driven by the domain and see how the domain really affects the final results
+when exploring other domains. For example, it is interesting to explore how the
+use of unlabeled data from the same domain or a contrasting domain affects
+semi-supervised models.
+
+With more resources available, some of the most important future work I have is
+the use of larger unlabeled corpora with different semi-supervised techniques.
+This ranges from training word embeddings with more corpora coming from
+different resources available online, to the use of more unlabeled training
+instances in the ladder network. For active learning, the manual annotation was
+done mostly by me with the help of my thesis supervisor, but it would benefit
+of a domain expert that could also work with more examples than the very little
+amount I could manage to annotate manually. Finally, I would like to do the
+analysis on more of the available lemmas, as due to time constraints I could
+only explore a small sample of all the available possibilities the area of
+Spanish \vsd~has to offer. With more resources as well, I will also work on a
+more thorough error analysis of the experiments, specially those regarding
+overfitting and distribution of classes. I am most interested in seeing how
+semi-supervised models deal with the annotation of new examples by doing a
+manual evaluation on examples myself, specially for the cases of self-learning
+and ladder networks.
+
+Finally, in a more technical approach, future work is left for exploring
+different combinations of the semi-supervised techniques such as the use of a
+combined algorithm between self-learning and active learning or moreover using
+a combination of one of the wrapper algorithms with the ladder network itself.
+In particular, the ladder network is a very promising approach that would
+require further exploration to tune its components. A line of future work would
+be to use the difference between the original corpus's distribution and the
+distribution of the predicted batch as a stopping criterion. Also, many of the
+hyperparameters can be modified trying to reach better performance of the
+algorithm in the task: from the denoising cost weights to the architecture of
+the encoder layer, also changing the combinator function given by the authors.
+Still, the most interesting line of work on ladder networks would be to check
+how they work by integrating a more complex neural network than just a plain
+multilayer perceptron. It would be interesting to see how a ladder network
+constructed over a convolutional neural network or a recurrent neural network
+can help the final performance of the models. In general terms, ladder
+networks, being the most novel approach studied in this thesis, gives ample
+room for improvement and exploration.

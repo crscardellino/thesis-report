@@ -1,0 +1,390 @@
+Besides machine learning, the other main area of study in this thesis is {\bf
+\nlp}. In particular, I focus on a subarea of \nlp: {\bf \wsd}, with special
+attention on {\bf Spanish \vsd}. This chapter reviews {\em \nlp} and {\em \wsd}
+(with particular interest on {\em Spanish \vsd}). More specifically, it
+explores some of the relevant work on \nlp~and \wsd~using the semi-supervised
+learning techniques described in the previous chapter. The chapter first
+describes the fundamental concepts of the area of \nlp~and \wsd. Then it
+explains the details of word embeddings and their applications on \nlp. Finally
+it continues with the revision of self-learning and active learning algorithms
+in the area of \nlp. There is no previous work for ladder networks specifically
+for \nlp~tasks as the technique is very recent, thus I will not discuss it in
+here.
+
+\section{Fundamental concepts}\label{sec:domain_background:fundamental}
+
+{\bf Natural language processing} is the field of artificial intelligence that
+works on the human-machine interaction via natural languages (i.e. those spoken
+by humankind, e.g. English, Spanish, Chinese). In this area, machine learning
+has been increasingly gaining popularity since the ``statistical revolution''
+to deal with tasks which used to be done with more ad hoc methods (e.g. based
+on complex sets of hand-written rules) \cite{Johnson:2009:SRC:1642038.1642041}.
+This kind of machine learning applied to \nlp~is also known as {\em statistical
+\nlp}. 
+
+{\bf Word sense disambiguation}, as its name implies, tries to automatically
+disambiguate words. Ide and V\'eronis \cite{Ide1998a} established that this
+task has been a core objective since the conception of natural language
+processing as an artificial intelligence task. Word sense disambiguation has
+been categorized as an {\em intermediate task} by Wilks and Stevenson
+\cite{DBLP:journals/corr/cmp-lg-9607028}, i.e. it is not an end task in itself,
+but rather a necessary step to accomplish in order to proceed with most natural
+language processing tasks. It is essential for language understanding
+applications (e.g. man-machine communication); and helpful (and sometimes
+required) for applications that do not aim for language understanding (e.g.
+machine translation, information retrieval, information extraction, etc.).
+
+This work focuses primarily in a sub task of word sense disambiguation, {\bf
+verb sense disambiguation}. Particularly, this work focuses on the application
+of verb sense disambiguation in Spanish. Both word and verb sense
+disambiguation can be seen as supervised machine learning problems. Different
+approaches have been studied in these areas.
+
+\section{Relevant work}\label{sec:domain_background:previous}
+
+\subsection{Supervised learning for
+\wsd}\label{sec:domain_background:supervised}
+
+For \wsd~the reference work at the time of writing this thesis is {\em It Makes
+Sense} \cite{Zhong:2010:MSW:1858933.1858947}. It is a system for English
+all-words \wsd. The system can be tweaked to the need of the user but is
+originally packed with a linear support vector machine classifier with multiple
+knowledge-based features.
+
+McCarthy and Carroll \cite{McCarthy2003a} worked on disambiguation of nouns,
+verbs and adjectives using selectional preferences acquired from automatically
+preprocessed and parsed text. The selectional preferences are acquired for
+grammatical relations (subject, direct objects, and adjective-noun) involving
+nouns and grammatically related adjectives or verbs. They use WordNet synsets
+to define the sense inventory. Their method exploits hyponym links given for
+nouns (e.g. {\em cheese} is an hyponym of {\em food}), troponym links for verbs
+(e.g., {\em limp} is a troponym of {\em walk}), and the ``similar-to''
+relationship given for adjectives (e.g., one sense of {\em cheap} is similar to
+{\em flimsy}). From the paper, it is not clear whether selectional preferences
+impact positively in \vsd.
+
+Ye and Baldwin \cite{Ye:2006:ALTA2006}, use Selectional Preferences extracted
+with a Semantic Role Labeler for \vsd. Their \vsd~framework is based upon three
+components: extraction of disambiguating features, selection of the best
+disambiguating features with respect to previously unseen data and the tuning
+of the machine learner's parameters. For their study they use a Maximum Entropy
+algorithm~\cite{Berger:1996:MEA:234285.234289}. The \vsd~features they used
+include selectional preferences and syntactic features, e.g, bag of words, bag
+of PoS tags, bag of chunks; parsed tree based features using different levels
+of the tree as source of information; and non-parse trees based syntactic
+features, e.g., voice of the verb, quotatives, etc. They show improved
+performance of their system when selectional preferences are taken into
+account.
+
+Another work on English \vsd~is the one by Chen and Palmer
+\cite{chen2009improving}, presenting a high-performance broad-coverage
+supervised word sense disambiguation system for English verbs that uses
+linguistically motivated features and a smoothed maximum entropy machine
+learning model. Kawahara and Palmer~\cite{KAWAHARA14.90} presented a supervised
+method for verb sense disambiguation based on VerbNet. Contrary to the most
+common \vsd~methods, which create a classifier for each verb that reaches a
+frequency threshold, they created a single classifier to be applied to rare or
+unseen verbs in a new text. Their classifier also exploits generalized semantic
+features of a verb and its modifiers in order to better deal with rare or
+unseen verbs.
+
+The work by Sudarikov et al. \cite{W16-4506} shows a direct application of
+\vsd~on another field of study. They present experimentation in machine
+translation using \vsd~information. They evaluate several options to use verb
+senses in the source language as an additional factor for the Moses statistical
+machine translation system. Their results show a statistically significant
+translation quality improvement.
+
+Many of the features that are used for English \vsd~are not available for
+Spanish \vsd~because the preprocessing tools and annotated corpora are less
+developed.
+
+In the SemEval 2007 task for multilevel semantic annotation of Catalan and
+Spanish~\cite{Marquez:2007:STM:1621474.1621482}, M\`arquez et
+al.~\cite{marquez07a} primarily focused on Noun Sense Disambiguation. They used
+a three way approach: if the word has more than a threshold number of
+occurrences, it is classified with a SVM classifier; if the word has less
+occurrences than the threshold it is assigned the most frequent sense (MFS) in
+the training corpus; if the word is not presented in the training corpus then
+it is assigned the MFS in WordNet. The SVM classifier features were a bag of
+words, n-grams of part-of-speech tags and lemmas, and syntactic label and
+syntactic function of the constituent that has the target noun as head.
+
+Anther work in WSD with applications in Spanish is the work of Montoyo et
+al.~\cite{DBLP:journals/corr/abs-1109-2130} where the task of WSD consists in
+assigning the correct sense to words using an electronic dictionary as the
+source of word definitions. They present a knowledge-based method and a
+corpus-based method. In the knowledge-based method the underlying hypothesis is
+that the higher the similarity between two words, the larger the amount of
+information shared by two of their concepts. The corpus-based method is based
+on conditional maximum-entropy models, it was implemented using a supervised
+learning method that consists of building word-sense classifiers using a
+semantically annotated corpus. Among the features for the classifier they used
+word forms, words in a window, part-of-speech tags and grammatical
+dependencies.
+
+Is noticeable that the features for Spanish \wsd~are more shallow than the
+features available for English \wsd. In this thesis we will explore more
+combinations of features aimed specifically to Spanish \vsd.
+
+\subsection{Word embeddings}\label{sec:domain_background:embeddings}
+
+{\bf Word embeddings} are distributed, continuous representations of words, in
+the form of dense vectors or real numbers. The concept behind this method is
+the mathematical embedding from a high-dimension sparse vector with one
+dimension per word (also known as {\em one-hot encoding}) to a continuous
+vector space with much lower dimension. There are different methods to
+obtain word embeddings, but all of them have the objective to generate word
+representations from an unlabeled corpus. 
+
+The use of word embeddings for supervised natural language processing tasks is
+an example of a disjoint learning task, and due to the nature of this work, one
+of my main areas of study. The idea behind word embeddings representations is
+to find a compact vectorial representation. Ideally, in this representation,
+each dimension captures underlying, latent properties of the word (syntactic or
+semantic). In this way, the embedding is superior to a representation of the
+words that stays at a shallow level, capturing word co-occurrences only.
+
+Collobert and Weston \cite{Collobert:2008:UAN:1390156.1390177} designed a
+convolutional neural network architecture for multitask learning that, based on
+a language model, provides many different language processing predictions for a
+given sentence: part-of-speech tags, chunks, named entity tags, semantic roles,
+semantically similar words, and the likelihood that a sentence makes sense
+(both syntactically and semantically). Each task is trained using labeled
+corpora except for the language model which is obtained in a completely
+unsupervised manner. This language model is embedded in a more dense,
+continuous space, which improves the representation of words for all subsequent
+tasks.  With this approach, known as end-to-end, they reach state-of-the-art
+performance on every task.
+
+Turian et al. \cite{Turian:2010:WRS:1858681.1858721} do a general introduction
+to some of the most common unsupervised word representations: distributional
+representations (e.g. latent semantic analysis), cluster based representations
+(e.g. Brown clusters) and distributed representations (e.g. word embeddings).
+They present word embeddings as generally being derived from {\em neural
+language models}, which is a language model based on neural networks,
+exploiting the ability to learn distributed representations to reduce the
+impact of the curse of dimensionality \cite{Bengio:2008}. The problem with
+these models, historically, was slow training with scaling based on the
+vocabulary for the computation of each model
+\cite{Bengio:2003:NPL:944919.944966}. This has been subsequently tackled and
+the linear dependency on vocabulary size has been reduced
+\cite{Morin+al-2005,Collobert:2008:UAN:1390156.1390177,NIPS2008_3583}. In their
+work they improve the accuracy of different existing natural language
+processing systems by using unsupervised word representations as extra
+features. They evaluate three different unsupervised word representations:
+Brown clusters \cite{Brown:1992:CNG:176313.176316}, Collobert and Weston
+\cite{Weston2008} embedding, and HLBL embeddings of words \cite{NIPS2008_3583};
+and evaluate them on named entity recognition and chunking. Using these
+representations they effectively show improvement of performance in nearly
+state-of-the-art baselines.
+
+\subsubsection{Word2Vec}
+
+The work by Mikolov et al. \cite{Mikolov2013} presented two architectures
+to compute continuous vector representations of words from very large datasets:
+the {\em continuous skip-gram model} and {\em continuous bag-of-words model}.
+
+These models use an architecture for learning distributed representations of
+words that tries to minimize computational complexity. They explore other
+methods to create a language model using neural networks like the work of
+Bengio \cite{Bengio:2003:NPL:944919.944966}, and they conclude that in such
+models most of the complexity is caused by the non-linear hidden layer in the
+model.  Thus they go on to explore simpler models that might not be able to
+represent the data as precisely as neural networks, but can possibly be trained
+on much more data efficiently.
+
+The continuous bag-of-words model (CBOW) consists of a neural network with a
+linear hidden layer where all the input words are projected into the same
+position and their vector is average. The idea is to represent the probability
+of a word occurring given a context of words as an input.
+
+The continuous skip-gram model is similar to the CBOW model, but instead of
+predicting the current word based on the context, it tries to maximize
+prediction of a word based on another word in the same context. More precisely,
+they use each current word as an input to a log-linear classifier with
+continuous projection layer, and predict words within a certain range before
+and after the current word. They found that increasing the range improves
+quality of the resulting word vectors, but it also increases the computational
+complexity. Since more distant words are usually less related to the current
+word than those close to it, they give less weight to distant words by sampling
+less from those words in their training examples.
+
+In summary, both models are based on a neural network with a linear hidden
+layer which given certain words (an average of the context in case of CBOW and
+a single word in the case of skip-gram) predicts words that are near in the
+text. The network is then trained on a large corpus and the projections are the
+word embeddings that the Word2Vec model produces.
+
+\subsubsection{The skip-gram model with negative sampling}
+
+The skip-gram model is the architecture I worked with in this thesis. It is
+able to learn high-quality distributed vector representations that capture a
+latent syntactic and semantic word relationships. As I said before, it is a
+neural network whose training objective is to find word representations that
+are useful for predicting the surrounding words in a sentence or a document.
+More formally, given a sequence of training words $w_1, w_2, w_3, \dots, w_T$,
+the objective of the Skip-gram model is to maximize the average log probability
+
+\[
+  \frac{1}{T}
+  \sum^{T}_{t=1}\sum_{-c \leq j \leq c, j \ne 0}
+  \log p(w_{t+j}|w_t)
+\]
+
+where $c$ is the training size context. In the basic skip-gram formulation the
+value of $p(w_{t+j}|w_t)$ is defined as a softmax function:
+
+\[
+  p(w_O|w_I) =
+  \frac{e^{v'_{w_O}{}^{\top} v_{w_I}}}
+    {\sum^{W}_{w=1} e^{v'_{w}{}^{\top} v_{w_I}}}
+\]
+
+where $v_w$ and $v'_w$ are the vector projections (of ``input'' and ``output''
+respectively) of $w$, and $W$ is the number of words in the vocabulary. This
+representation scales with the size of the vocabulary which can be in the
+millions or billions.
+
+In another work of Mikolov et al. \cite{Mikolov2013a}, they present extensions
+to the original skip-gram model architecture which improve both the quality of
+the vectors and the training speed. First, they obtain significant speedup of
+the process by sub-sampling of the frequent words. This also helps by learning
+more regular word representations. However, the real added value of this paper
+is the presentation of the negative sampling model. To do that, they explore
+the Noise Contrastive Estimation (NCE) technique
+\cite{Gutmann:2012:NEU:2188385.2188396}. While NCE  can be shown to
+approximately maximize the log probability of the softmax, the Skipgram model
+is only concerned with learning high-quality vector representations, so they
+are free to simplify NCE as long as the vector representations retain their
+quality. They define Negative sampling (NEG) by the objective:
+
+\[
+  \log\sigma(v'_{w_O}{}^{\top} v_{w_I}) +
+  \sum^{k}_{i=1} \mathbb{E}_{w_i\sim P_n(w)} 
+  \Big[ \log\sigma(-v'_{w_i}{}^{\top} v_{w_I}) \Big]
+\]
+
+which is used to replace every $\log p(w_O|w_I)$ term in the objective of the
+Skip-gram model. In this case the $P_n(w)$ is a noise distribution from which
+the algorithm draws random examples of words not likely to happen in the
+context of the word they are trying to model. The distribution is an
+hyperparameter of the model. In the original paper, it is modeled after a
+unigram distribution.
+
+\subsubsection{Word embeddings for \wsd}
+
+The work by Taghipour and Ng \cite{Taghipour2015SemiSupervisedWS} investigates
+two ways of incorporating word embeddings in a word sense disambiguation
+setting and evaluates on some SensEval/SemEval lexical sample and all-words
+tasks and also a domain-specific lexical sample task. Results show that such
+representations consistently improve the accuracy of the selected supervised
+\wsd~system.
+
+Rothe and Sch\"utze \cite{rothe-schutze:2015:ACL-IJCNLP} presented a system to
+learn joint embeddings for synsets and lexemes. The synset/lexeme embeddings
+live in the same vector space as the word embeddings for words that are not in
+WordNet and thus have no synsets associated. The system achieves
+state-of-the-art performance on word similarity and word sense disambiguation
+tasks.
+
+A very complete work on word embeddings as features for \wsd~is the evaluation
+study by Iacobacci et al. \cite{iacobacci-pilehvar-navigli:2016:P16-1}. They
+propose different methods through which word embeddings can be leveraged in a
+state-of-the-art supervised WSD system architecture, and perform analysis of
+how different parameters affect performance. They show how a \wsd~system that
+makes use of word embeddings alone, if designed properly, can provide
+significant performance improvement over a state-of-the-art \wsd~system that
+incorporates several standard \wsd~features. They explore different
+dispositions of the embeddings to represent the sentences, like concatenation,
+average and weighted sums based on distance. They also compare different
+methods to obtain word embeddings.
+
+For Spanish \wsd, at the time of writing this thesis, the only work I could
+find was my own (on which this thesis extends) in Cardellino and Alonso
+\cite{cardellinodisjoint}.
+
+On a related area, the work by Gella et al. \cite{Gella:2016aa} explores a
+different kind of embeddings to aid on \vsd. They introduce a novel task
+defined as {\em visual sense disambiguation}: given an image and a verb, assign
+the correct verb of the sense, i.e., the one that describes the action depicted
+in the image. The area is multimodal learning, this is an area that combines
+different areas of machine learning in a task that comprises them, in this case
+\nlp with machine vision. The work by Gella et al. introduces an extension on
+multimodal datasets to add sense labels. They propose an unsupervised algorithm
+which performs visual sense disambiguation using textual, visual, or multimodal
+embeddings.
+
+\subsection{Self-learning}\label{sec:domain_background:self-learning}
+
+Self-learning has been used in many natural language processing tasks. For
+example, Riloff et al. \cite{Riloff:2003:LSN:1119176.1119180} use self-learning
+to identify subjective nouns. Maeireizo et al.
+\cite{Maeireizo:2004:CPE:1219044.1219072} classify dialogues as ``emotional''
+or ``non-emotional'' with a procedure involving two classifiers. Weld et al.
+\cite{Weld:2009:UWB:1519103.1519113} present the use of a self-learning
+algorithm as a case study of open information extraction. They use the
+algorithm in Wikipedia and show how the process of their algorithm uses a
+bootstrapping method to enable information extraction from a wider set of
+general web pages.
+
+In the area of word sense disambiguation, the landmark work on self-learning is
+the 1995 Yarowsky publication~\cite{yarowsky-95}. In his work, Yarowsky builds
+a disambiguation model based on the words co-occurring with manually labeled
+examples. Then, this model is applied to unlabeled examples. Examples that can
+be assigned a sense by the model are then incorporated as training examples,
+and a new model is trained. This process is iteratively applied until a
+termination condition is reached, namely, no new examples can be assigned a
+sense or the reliability of the evidence found by the model is too low. After
+each iteration, the resulting model has arguably larger coverage than previous
+versions. Therefore, this method is useful to build a real-life tool out of a
+limited number of examples.
+
+Mihalcea \cite{mihalcea:2004:CONLL} investigates the application of co-training
+and selftraining to \wsd. In particular she investigates on hyperparameter
+selection with various degrees of error reduction. In her work she selects the
+top candidates returned by the supervised algorithm to add to the training
+examples (instead of using some threshold and add everything over that as I do
+in my work). She finally presents a method that combines co-training with
+majority voting to smooth the bootstrapping learning curves and improve the
+average performance.
+
+In a related area, Yuan et al. \cite{Yuan:2016aa} explore a {\em label
+propagation classifier} for semi-supervised \wsd with neural models. They study
+\wsd with a recurrent long-short term memory network. They look to better
+capture the sequential and syntactic patterns of the text. The semi-supervised
+task is an extra they have to alleviate the lack of training data in \wsd. They
+demonstrate state-of-the-art results, especially on verbs for English. The
+label propagation classifier expands the labels of the unsupervised data based
+on the similarity the unlabeled data has to some of its labeled neighbors. A
+very similar approach is to use a self-learning algorithm as a wrapper for a
+nearest neighbors algorithm.
+
+\subsection{Active learning}
+
+Active learning techniques are not as widely used in natural language
+processing as one would expect from the good acceptance of machine learning
+techniques in general, and the need to develop labeled data. Besides the
+technical difficulty that many active learning systems pose, and the risk that
+an active learning method performs worse than passive learning, there is also
+the problem of class imbalance to be taken into account, frequent in natural
+language processing.
+
+Class imbalance is one of the hardest problems in active learning, and one
+where uncertainty sampling may very probably perform worse than random
+sampling. Many approaches have been proposed to deal with the class imbalance
+problem within active learning
+\cite{Tomanek:2009:RCI:1597735.1597754,bloodgood2009taking,zhu2007active,Ertekin07learningon,conf/nips/HeC07},
+but no definitive solution has been found for the problem.
+
+In the line of semi-supervised techniques for word sense disambiguation, active
+learning has been applied successfully to verb sense disambiguation in Dligach
+and Palmer \cite{dligach2011good}, where they explore the benefits of using an
+unsupervised language model to select seed examples as a starting corpus for an
+iterative active learning approach. It involves training a language model on a
+corpus of unlabeled candidate examples and selecting the examples with low
+language model probability. This smart starting point seems to provide a better
+performance for verb senses, where there is a skewed distribution of classes,
+because it is able to select representative examples of minority classes. On
+my line of work I explored the use of active learning along self-learning for
+tasks of Spanish \vsd~in Cardellino et al. \cite{Cardellino2015Workshop}.
