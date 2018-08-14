@@ -410,8 +410,8 @@ KOMA-script documentation for details.}]{fancyhdr}
 
 \usepackage{xcolor}
 \colorlet{mdtRed}{red!50!black}
-\newcommand{\acknowledgementname}{Acknowledgements}
-\providecaptionname{american,australian,british,canadian,english,newzealand,UKenglish,USenglish} {\acknowledgementname}{Acknowledgements} % Acknowledgement text for English countries
+\newcommand{\acknowledgementname}{Agradecimientos}
+\providecaptionname{american,australian,british,canadian,english,newzealand,UKenglish,USenglish} {\acknowledgementname}{Agradecimientos} % Acknowledgement text for English countries
 \providecaptionname{german,ngerman,austrian,naustrian}{\acknowledgementname}{Danksagung} % Acknowledgement text for Germanic countries
 
 \ifbool{consistentlayout}{
@@ -464,7 +464,7 @@ KOMA-script documentation for details.}]{fancyhdr}
 			\checktoopen\tttypeout{Dedicatory}
 			\markboth{}{}
 			#2
-			{\hfill\parbox{.4\textwidth}{\flushright#1\par}}
+			{\hfill\parbox{\textwidth}{\flushright#1\par}}
 		}
 }{
 	\newcommand\dedicatory[1]{
