@@ -161,8 +161,7 @@ consistentlayout, % Uncomment to change the layout of the declaration, abstract 
 %	THESIS INFORMATION
 %----------------------------------------------------------------------------------------
 
-\thesistitle{A Study on Semi-Supervised Methods for Spanish Verb Sense
-Disambiguation} % Your thesis title, this is used in the title and abstract, print it elsewhere with \ttitle
+\thesistitle{A Study on Semi-Supervised Methods for Spanish Verb Sense Disambiguation} % Your thesis title, this is used in the title and abstract, print it elsewhere with \ttitle
 \supervisor{PhD. Laura \textsc{Alonso Alemany}} % Your supervisor's name, this is used in the title page, print it elsewhere with \supname
 \examiner{} % Your examiner's name, this is not currently used anywhere in the template, print it elsewhere with \examname
 \degree{Doctor of Philosophy} % Your degree name, this is used in the title page and abstract, print it elsewhere with \degreename
@@ -170,16 +169,16 @@ Disambiguation} % Your thesis title, this is used in the title and abstract, pri
 \addresses{} % Your address, this is not currently used anywhere in the template, print it elsewhere with \addressname
 
 \subject{Computer Sciences Sciences} % Your subject area, this is not currently used anywhere in the template, print it elsewhere with \subjectname
-\keywords{} % Keywords for your thesis, this is not currently used anywhere in the template, print it elsewhere with \keywordnames
+\keywords{semi-supervised machine learning, natural language processing, word sense disambiguation} % Keywords for your thesis, this is not currently used anywhere in the template, print it elsewhere with \keywordnames
 \university{\href{https://www.unc.edu.ar/}{Universidad Nacional de C\'ordoba}} % Your university's name and URL, this is used in the title page and abstract, print it elsewhere with \univname
 \department{\href{https://cs.famaf.unc.edu.ar/}{Secci\'on de Ciencias de la Computaci\'on}} % Your department's name and URL, this is used in the title page and abstract, print it elsewhere with \deptname
 \group{\href{http://pln.famaf.unc.edu.ar/}{Grupo de Procesamiento de Lenguaje Natural}} % Your research group's name and URL, this is used in the title page, print it elsewhere with \groupname
 \faculty{\href{http://www.famaf.unc.edu.ar/}{Facultad de Matem\'atica, Astronom\'ia, F\'isica y Computaci\'on}} % Your faculty's name and URL, this is used in the title page and abstract, print it elsewhere with \facname
 
 \AtBeginDocument{
-\hypersetup{pdftitle=\ttitle} % Set the PDF's title to your title
-\hypersetup{pdfauthor=\authorname} % Set the PDF's author to your name
-\hypersetup{pdfkeywords=\keywordnames} % Set the PDF's keywords to your keywords
+  \hypersetup{pdftitle=\ttitle} % Set the PDF's title to your title
+  \hypersetup{pdfauthor=\authorname} % Set the PDF's author to your name
+  \hypersetup{pdfkeywords=\keywordnames} % Set the PDF's keywords to your keywords
 }
 
 \begin{document}
@@ -223,7 +222,7 @@ Disambiguation} % Your thesis title, this is used in the title and abstract, pri
 {\large 20th April, 2018}\\[0.5cm] % Date
 
 \includegraphics[scale=0.75]{images/cc-by-sa.png}\\
-{\small his work is licensed under a 
+{\small This work is licensed under a 
 \href{http://creativecommons.org/licenses/by-sa/4.0/}
 	{Creative Commons Attribution-ShareAlike 4.0 International License}}
  
@@ -232,41 +231,6 @@ Disambiguation} % Your thesis title, this is used in the title and abstract, pri
 \end{titlepage}
 
 \cleardoublepage
-
-%----------------------------------------------------------------------------------------
-%	DECLARATION PAGE
-%----------------------------------------------------------------------------------------
-
-% \begin{declaration}
-% \addchaptertocentry{\authorshipname} % Add the declaration to the table of contents
-% \noindent I, \authorname, declare that this thesis titled, \enquote{\ttitle}
-% and the work presented in it are my own. I confirm that:
-% 
-% \begin{itemize} 
-%   \item This work was done wholly or mainly while in candidature for a research
-%     degree at this University.
-%   \item Where any part of this thesis has previously been submitted for a
-%     degree or any other qualification at this University or any other
-%     institution, this has been clearly stated.
-%   \item Where I have consulted the published work of others, this is always
-%     clearly attributed.
-%   \item Where I have quoted from the work of others, the source is always
-%     given. With the exception of such quotations, this thesis is entirely my
-%     own work.
-%   \item I have acknowledged all main sources of help.
-%   \item Where the thesis is based on work done by myself jointly with others, I
-%     have made clear exactly what was done by others and what I have contributed
-%     myself.\\
-% \end{itemize}
-%  
-% \noindent Signed:\\
-% \rule[0.5em]{25em}{0.5pt} % This prints a line for the signature
-%  
-% \noindent Date:\\
-% \rule[0.5em]{25em}{0.5pt} % This prints a line to write the date
-% \end{declaration}
-% 
-%\cleardoublepage
 
 %----------------------------------------------------------------------------------------
 %	QUOTATION PAGE
@@ -278,7 +242,11 @@ Disambiguation} % Your thesis title, this is used in the title and abstract, pri
 your advisor, understands what you're doing after the first couple of
 years.}\bigbreak
 
-\hfill China Mi\'eville
+\hfill China Mi\'eville\\[0.5cm]
+
+\noindent\enquote{\itshape There is no knowledge that is not power.}\bigbreak
+
+\hfill Ralph Waldo Emerson
 
 %----------------------------------------------------------------------------------------
 %	ABSTRACT PAGE
@@ -336,6 +304,30 @@ years.}\bigbreak
   overfit of supervised models. Also, the method's performance is shown to be
   comparable or better to the rest of methods presented on this thesis, making
   the ladder network an interesting candidate for semi-supervised learning.
+  
+  \textsc{Classification (ACM CCS 2012)}
+
+  \begin{itemize}
+    \item \textbf{Computing methodologies$\sim$Semi-supervised learning settings}
+    \item \textbf{Computing methodologies$\sim$Natural language processing}
+    \item Computing methodologies$\sim$Artificial intelligence
+  \end{itemize}
+
+  \textsc{Keywords}
+
+  \begin{description}
+    \item{\textbf{English:}} Artificial intelligence -- Natural language
+    processing -- Word sense disambiguation -- Spanish verb sense
+    disambiguation -- Machine learning -- Semi-supervised learning --
+    Deep learning.
+    \item{\textbf{Spanish:}} Inteligencia artificial -- Procesamiento de lenguaje
+    natural -- Desambiguación de sentidos -- Desambiguación de verbos del
+    español -- Aprendizaje automático -- Aprendizaje semisupervisado --
+    Aprendizaje profundo.
+  \end{description}
+  
+  % TODO: Resumen en español
+ 
 \end{abstract}
 
 %----------------------------------------------------------------------------------------
