@@ -1,0 +1,269 @@
+\section{Overview}\label{section:introduction:overview} 
+
+This thesis explores the use of semi-supervised learning techniques for Spanish
+\vsd. The objective is to study how adding information from unlabeled sources,
+which are larger, can help a classifier learned from a labeled but small
+resource, as is the disambiguated corpus for Spanish verbs SenSem
+\cite{alonso-etal-07-sensem}.
+
+{\em Supervised machine learning} is the task that infers a function that maps
+unlabeled data to a label. This function is inferred from labeled data, which
+have been manually associated to a label. This is also known as modeling of the
+data.  This function can be used then to find new mappings given unseen
+examples. However, supervised learning models are limited by the amount of
+labeled data available. The more labeled data a model has, the better the
+performance of the model. Right now {\em deep learning} requires large amounts
+of data in order to generate good models. As data labeling is a task requiring
+human labor, having large enough datasets is generally expensive. This is also
+dependent on the task. Some tasks are relatively easy for any person to label
+(e.g. see if a picture has a cat in it). For other tasks, labeled data is more
+difficult to obtain, as it requires that the human annotators are domain
+experts (e.g. a lawyer, a physician, a linguist, etc.).
+
+{\em Unsupervised machine learning} is the task that tries to find patterns or
+hidden structures in unlabeled data. Because the data are unlabeled, these
+patterns cannot be evaluated based on accuracy. Unsupervised machine learning
+is more centered in the exploration of the data rather than finding a function
+useful for a particular prediction task, like supervised learning. The
+advantage of unsupervised learning is the vast amount of data available. As the
+data is not annotated, it makes it cheap to gather datasets.
+
+{\em Semi-supervised learning} is an approach in between. A semi-supervised
+algorithm makes use of both labeled and unlabeled data in order to better infer
+a function for a specific task (whether it is supervised or not). In this case,
+given enough data, a good semi-supervised learning technique can improve on the
+purely supervised or unsupervised algorithm it is using. In particular, it has
+the advantage of having a way to evaluate it in means of accuracy or other
+metrics, but also has the advantage of being able to expand its models based on
+the cheap available unlabeled datasets. The objective of this thesis is to
+explore different semi-supervised models in order to improve on a supervised
+task which has the properties stated above: lack of large labeled datasets, but
+availability of large unlabeled datasets.
+
+{\em Natural language processing} helps humans interact with machines using the
+human language, instead of a formal language. The main challenge of the area is
+the ambiguity of human language. But this is not the only problem. Human
+language, as many other social phenomena, has a Zipfian distribution
+\cite{j:zpf}, which is an exponential distribution. This law states that given
+a corpus of natural language utterances, the frequency of any word is inversely
+proportional to its rank in the frequency table. Thus, the most frequent word
+will occur approximately twice as often as the second most frequent word, three
+times as often as the third most frequent word, etc. In the case of
+classification tasks of natural language processing, the classes are unbalanced
+following Zipf's law, thus very few classes occur very often, and the rest of
+them have few to no occurrences in the labeled dataset. As with everything, the
+availability of good models for natural language tasks depends on the data
+available for that task. In particular, different languages have different
+amount of data, thus making it possible to obtain better or worse models. E.g,
+English is language with very good models because of the amount of resources;
+other languages are harder to work with because there are less available
+resources.
+
+{\em Word sense disambiguation} is an intermediate task of natural language
+processing which, as it names indicates, given a word and its context tries to
+discriminate the meaning of that word among an inventory of pre-determined
+senses. E.g. the noun ``granada'' can be a fruit or a weapon depending on the
+context it is used in. A sub-task of \wsd~is {\em \vsd}, which is crucial for a
+deep language processing tasks, especially those that could benefit from
+information about relations between participants provided by the verb, like
+machine translation, question answering or information extraction. E.g., in
+machine translation, sense disambiguation is needed to determine the correct
+translation of a word, and also the transformations needed in the syntactical
+structure of the sentence. Examples \ref{example:hacer:1} and
+\ref{example:hacer:2} shows how the different senses can change the translation
+of the same word.
+
+\begin{example}\label{example:hacer:1}
+  \begin{itemize}
+    \item Juan {\bf hizo} una torta de chocolate.
+    \item {\em Juan {\bf made} a chocolate cake.}
+  \end{itemize}
+\end{example}
+
+\begin{example}\label{example:hacer:2}
+  \begin{itemize}
+    \item Juan {\bf hizo} la tarea por la tarde.
+    \item {\em Juan {\bf did} the homework in the afternoon.}
+  \end{itemize}
+\end{example}
+
+Another example, for question answering over linked data \vsd~is needed to
+determine the sense of a verb and the logical relations between the
+participants to access the adequate nodes and edges in an ontology. Examples
+\ref{example:acceder:1} and \ref{example:acceder:2} show how the same verb has
+different connotations and thus establish different relationships between the
+participants it connects.
+
+\begin{example}\label{example:acceder:1}
+  \begin{itemize}
+    \item El investigador no pudo {\bf acceder} a la informaci\'on reservada.
+  \end{itemize}
+\end{example}
+
+\begin{example}\label{example:acceder:2}
+  \begin{itemize}
+    \item Pedro {\bf accedi\'o} a escribir una nota de descargo.
+  \end{itemize}
+\end{example}
+
+Finally, an information extraction task like relation extraction where \vsd~is
+needed to disambiguate those relationships, generally represented as verbs in a
+unstructured text.
+
+However, \vsd~is a highly difficult task, that achieves even lower precision
+rates than \wsd~for other morphosyntactic categories (nouns, adjectives). This
+is arguably due to the inherent complexity of verb senses and the fact that
+their meaning is more pervasive than that of nouns, thus making it more
+difficult to discretize \cite{chen2009improving}.  Find below a detailed
+example of verb sense ambiguity for the lemma {\emph hablar}, with five senses
+in the SenSem lexicon. This can be seen in example \ref{example:hablar:1}.
+
+\begin{example}\label{example:hablar:1}
+  \begin{itemize}
+    \item (...) una joven realizadora irlandesa que (...) {\bf habla}
+      castellano con acento malague\~no ya que de peque\~na vivi\'o tres a\~nos
+      en Estepona.
+  \end{itemize}
+\end{example}
+
+\begin{example}\label{example:hablar:2}
+  \begin{itemize}
+    \item El presidente del Gobierno (...) {\bf hablar\'a} con las principales
+      autoridades de ambos estados sobre las perspectivas de la Uni\'on Europea
+      (...).
+  \end{itemize}
+\end{example}
+
+In Example \ref{example:hablar:1} {\it hablar} is a state with the meaning of
+``being able to speak a language'', while in example \ref{example:hablar:2} it
+is a process with the meaning ``talk''. The subcategorization frames of each
+sense are also very different: for the first, we have two themes, while the
+second has the typical communication frame, with an Agent-Origin, a Theme and a
+Goal-Receiver.
+
+\section{Contributions and outline of this thesis}\label{section:outline}
+
+Word sense disambiguation is still an open problem in the area of natural
+language processing. Many different techniques and algorithms have been
+researched to attack this problem. Methods range from the use of lanaguage
+resources and knowledge databases, dictionary-based, rule-based, supervised
+machine learning and even purely unsupervised techniques that seek to infer
+senses by word clustering. There are even hybrid methods which are a
+combination of these. Supervised machine learning techniques are based on
+corpora of disamgibuated words. Given this one can train a classifier to
+recognize senses in unseen examples.
+
+Most of the work for Spanish \wsd~is not specifically for verbs. Much of the
+work is using knowledge bases
+\cite{Agirre:2014:RWK:2645242.2645245,Agirre:2009:PPW:1609067.1609070}. There
+is some work using supervised learning techniques or unsupervised learning
+techniques \cite{MihalceaEtAl2004}. But at the time of writing this thesis, the
+work done specifically for Spanish \vsd~using the semi-supervised techniques
+explored in this work is non-existent to my knowledge. Moreover, the work in
+this thesis is using a resource that, save for the publications that derived in
+this thesis, has not been explored. I use as my basic resource the corpus of
+disambiguated verbs SenSem \cite{alonso-etal-07-sensem}.
+
+This resource, although valuable as it was annotated by domain experts, is very
+small an has a limited amount of examples. But there is a large amount of
+unlabeled corpora available on the internet for Spanish (e.g. the SBWCE corpus
+\cite{cardellinoSBWCE}). This gives me the opportunity to study semi-supervised
+techniques applied to a problem that could really benefit from it, rather than
+a generic problem based on a toy dataset with properties that real world data
+might lack. Likewise, by studying the impact of semi-supervised machine
+learning techniques for Spanish \vsd~rather than for English \vsd, I contribute
+to the improvement of NLP for a language whose resources are less developed.
+The main contribution of this thesis can be summarized in the study of how
+different semi-supervised systems overcome the problems of Spanish \vsd.
+
+The two following chapters introduce the fundamental concepts and related work
+of this thesis. Chapters \ref{chapter:general_background} and
+\ref{chapter:domain_background} present a background review of the two main
+ares of this thesis: {\em machine learning} and {\em natural language
+processing}. Specifically Chapter \ref{chapter:general_background} introduces
+the relevant concepts for the work in next chapters, and presents a brief
+description and analysis of previous work for the semi-supervised learning
+techniques studied in this thesis. Chapter \ref{chapter:domain_background} is a
+background chapter on \nlp~and \wsd. It introduces the fundamental concepts of
+the area and does a review of the previous work on supervised and
+semi-supervised learning techniques applied specifically to the areas of
+\nlp~and \vsd. The five core chapters of this thesis explore different
+hypotheses for Spanish \vsd~and experiment and analyze results to test those
+proposed hypotheses.  The final chapter recapitulates on the findings and
+lessons learned of this thesis and describes lines for future work.
+
+\paragraph{Summary of Chapter \ref{chapter:supervised}: Supervised Learning}
+
+This chapter explores supervised machine learning techniques for \vsd. The main
+objective is to establish a baseline. The chapter explores \vsd~both for
+Spanish and English. The latter is needed as a comparison ground to ensure that
+there is no language related bias. The chapter explores different
+classification algorithms and representations given by {\em hand-crafted
+features} to discard techniques that underperform. I also present a deep
+discussion about the insight provided by metrics and their biases.  This is
+needed for a thorough understanding of models and their weaknesses to properly
+direct further developments. Finally, the chapter states the main shortcomings
+of the supervised approach: lack of coverage and tendency to overfit. I try to
+overcome these problems with the different semi-supervised techniques explored
+in the thesis.
+
+\paragraph{Summary of Chapter \ref{chapter:embeddings}: Word Embeddings}
+
+This chapter explores the use of {\em word embeddings} as unsupervised
+representations within supervised classifiers. This approach is known as {\em
+disjoint semi-supervised learning}: an unsupervised technique is used prior to
+a supervised one to aid the latter. The chapter explores how the domain of the
+word embeddings affects the performance of the supervised classifiers, and how
+word embeddings help to overcome lack of coverage and tendency to overfit,
+even if at the expense of losing some performance in other aspects, like 
+accuracy or F1.
+
+\paragraph{Summary of Chapter \ref{chapter:self-learning}: Self-Learning}
+
+This chapter explores the self-learning algorithm, a well established method
+and one of the earliest semi-supervised algorithms in existence.  Self-learning
+is a {\em wrapper algorithm}. The algorithm uses a supervised classifier,
+trained on an initial labeled dataset, to select instances from a pool of
+unlabeled data. Using some measure of certainty, it annotates those instances
+for which the algorithm has the highest confidence and uses them to expand the
+labeled data to re-train the supervised classifier. Experiments in this chapter
+focus primarily on increasing the amount of labeled data available to train a
+classifier. The final objective is to have a supervised model with a larger
+coverage by integrating part of the unlabeled data into the training process,
+assigning them a label automatically. Self-learning is the first of the {\em
+joint semi-supervised learning} techniques explored in the thesis.  In this
+type of algorithms the labeled and unlabeled data are used together in the
+process of learning. I found that self-learning suffers strongly from
+unbalanced datasets. It amplifies the bias toward the most frequent class, so
+the expected increase in coverage by adding new examples to training is shaded
+because decision boundaries between classes are blurred.
+
+\paragraph{Summary of Chapter \ref{chapter:active}: Active Learning}
+
+This chapter explores active learning as a semi-supervised approach. Active
+learning is based on the same idea of self-learning. It is a wrapper algorithm
+that uses a supervised model to select instances taken from a pool of unlabeled
+data. However, instead of annotating the instances automatically, like
+self-learning, it uses an {\em intelligent approach} to select data and gives
+it to a human expert to annotate. The data is selected based on the impact it
+will have in the model to correctly annotate it (e.g. by giving more
+information to the model). As manual annotation is expensive, the idea is to
+reduce the resources spent on annotation to a bare minimum. The chapter
+experiments show that information obtained via active learning, although little
+in comparison, can outperform the self-learning approach, which is generally
+biased by the nature of language and Zipf's law.
+
+\paragraph{Summary Chapter \ref{chapter:ladder}: Ladder Networks}
+
+Finally, this chapter explores {\em ladder networks}. This is a novel approach
+in the field of semi-supervised learning, which presents a neural network
+architecture based on the idea of simultaneously training the weights of the
+network by minimizing a combined cost function. This cost function is a sum of
+a supervised cost function and an unsupervised cost function. The network
+consists on two paths: an encoding path optimizing the supervised cost
+function and a decoder path which reconstructs the encoding input layer by
+layer. The idea is that the information gathered by the unsupervised path will
+help the supervised approach to better generalize, thus overcoming the tendency
+to overfit of supervised models. Also, the method's performance is shown to be
+comparable or better to the rest of methods presented on this thesis, making
+the ladder network an interesting candidate for semi-supervised learning.

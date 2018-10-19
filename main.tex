@@ -1,0 +1,548 @@
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% Masters/Doctoral Thesis 
+% LaTeX Template
+% Version 2.5 (27/8/17)
+%
+% This template was downloaded from:
+% http://www.LaTeXTemplates.com
+%
+% Version 2.x major modifications by:
+% Vel (vel@latextemplates.com)
+%
+% This template is based on a template by:
+% Steve Gunn (http://users.ecs.soton.ac.uk/srg/softwaretools/document/templates/)
+% Sunil Patel (http://www.sunilpatel.co.uk/thesis-template/)
+%
+% Template license:
+% CC BY-NC-SA 3.0 (http://creativecommons.org/licenses/by-nc-sa/3.0/)
+%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+%----------------------------------------------------------------------------------------
+%	PACKAGES AND OTHER DOCUMENT CONFIGURATIONS
+%----------------------------------------------------------------------------------------
+
+\documentclass[
+11pt, % The default document font size, options: 10pt, 11pt, 12pt
+%oneside, % Two side (alternating margins) for binding by default, uncomment to switch to one side
+english, % ngerman for German
+%singlespacing, % Single line spacing, alternatives: onehalfspacing or doublespacing
+onehalfspacing, % Single line spacing, alternatives: onehalfspacing or doublespacing
+%doublespacing, % Single line spacing, alternatives: onehalfspacing or doublespacing
+%draft, % Uncomment to enable draft mode (no pictures, no links, overfull hboxes indicated)
+nolistspacing, % If the document is onehalfspacing or doublespacing, uncomment this to set spacing in lists to single
+%liststotoc, % Uncomment to add the list of figures/tables/etc to the table of contents
+%toctotoc, % Uncomment to add the main table of contents to the table of contents
+%parskip, % Uncomment to add space between paragraphs
+%nohyperref, % Uncomment to not load the hyperref package
+headsepline, % Uncomment to get a line under the header
+%chapterinoneline, % Uncomment to place the chapter title next to the number on one line
+consistentlayout, % Uncomment to change the layout of the declaration, abstract and acknowledgements pages to match the default layout
+]{MastersDoctoralThesis} % The class file specifying the document structure
+
+\usepackage[utf8]{inputenc} % Required for inputting international characters
+\usepackage[T1]{fontenc} % Output font encoding for international characters
+
+\usepackage{amsthm}
+\usepackage{amsfonts}
+\usepackage{amsmath}
+\usepackage{algorithm,algorithmic}
+\usepackage{booktabs}
+\usepackage{breakcites}
+\usepackage[autostyle=true]{csquotes} % Required to generate language-dependent quotes in the bibliography
+\usepackage{enumitem}
+\usepackage{graphicx}
+\usepackage{layout}
+\usepackage{mathtools}
+\usepackage{multicol}
+\usepackage{multirow}
+\usepackage{subcaption}
+\usepackage{hyperref}
+
+%----------------------------------------------------------------------------------------
+%	MARGIN SETTINGS
+%----------------------------------------------------------------------------------------
+
+\geometry{
+	paper=a4paper, % Change to letterpaper for US letter
+	inner=2.5cm, % Inner margin
+	outer=3.8cm, % Outer margin
+	bindingoffset=.5cm, % Binding offset
+	top=1.5cm, % Top margin
+	bottom=1.5cm, % Bottom margin
+	%showframe, % Uncomment to show how the type block is set on the page
+}
+
+%----------------------------------------------------------------------------------------
+%	CUSTOM COMMANDS
+%----------------------------------------------------------------------------------------
+
+% Set counter for subsubsections
+\setcounter{tocdepth}{2}
+\setcounter{secnumdepth}{3}
+
+% Hypothesis and subhypothesis counters
+\newcounter{hypothesis}
+\renewcommand\thehypothesis{\Roman{hypothesis}}
+\newcommand\hypothesisname{Hypothesis}
+\newenvironment{hypothesis}[1][]
+  {\refstepcounter{hypothesis}
+    \par\medskip
+    \noindent \textbf{\hypothesisname~\thehypothesis #1}
+  \rmfamily\begin{em}}{\end{em}\medskip}
+
+\newcounter{subhypothesis}[hypothesis]
+\renewcommand\thesubhypothesis{\arabic{hypothesis}.\arabic{subhypothesis}}
+\newcommand\subhypothesisname{Subhypothesis}
+\newenvironment{subhypothesis}[1][]
+  {\refstepcounter{subhypothesis}
+    \par\medskip
+    \textbf{\subhypothesisname~\thesubhypothesis #1}
+  \rmfamily\begin{em}}{\end{em}\medskip}
+
+% Definitions counter
+\newcounter{definition}[chapter]
+\renewcommand\thedefinition{\thechapter.\arabic{definition}}
+\newcommand\definitionname{Definition}
+\newenvironment{definition}[1][]
+  {\refstepcounter{definition}
+    \par\medskip
+    \noindent \textbf{\definitionname~\thedefinition. #1}
+  \rmfamily}{\medskip}
+
+% Example environment
+\newcounter{example}[chapter]
+\renewcommand\theexample{\thechapter.\arabic{example}}
+\newcommand\examplename{Example}
+\newenvironment{example}[1][]
+  {\refstepcounter{example}
+    \par\medskip
+    \noindent \textbf{\examplename~\theexample. #1}
+  \rmfamily}{\medskip}
+
+% Experiment environment
+\newcounter{experiment}[chapter]
+\renewcommand\theexperiment{\thechapter.\arabic{experiment}}
+\newcommand\experimentname{Experiment}
+\newenvironment{experiment}[1][]
+  {\refstepcounter{experiment}
+    \par\medskip
+    \noindent \textbf{\experimentname~\theexperiment. #1}
+  \rmfamily}{\medskip}
+
+% Experiment enumeration
+\newenvironment{enumexp}
+  {\begin{enumerate}[label=\textbf{\theexperiment\alph*},ref=\theexperiment\alph*]}
+  {\end{enumerate}}
+
+% Metric environment
+\newcounter{metric}
+\renewcommand\themetric{\arabic{metric}}
+\newcommand\metricname{Metric}
+\newenvironment{metric}[1][]
+  {\refstepcounter{metric}
+    \par\medskip
+    \noindent \textbf{\metricname~\themetric. #1}
+  \rmfamily}{\medskip}
+
+% Metric enumeration
+\newenvironment{enummet}
+  {\begin{enumerate}[label=\textbf{\themetric\alph*},ref=\themetric\alph*]}
+  {\end{enumerate}}
+
+% ABBREVIATION COMMANDS
+
+\newcommand{\digito}{\textsc{digito}}
+\newcommand{\nlp}{natural language processing}
+\newcommand{\vsd}{verb sense disambiguation}
+\newcommand{\wsd}{word sense disambiguation}
+
+%----------------------------------------------------------------------------------------
+%	THESIS INFORMATION
+%----------------------------------------------------------------------------------------
+
+\thesistitle{A Study on Semi-Supervised Methods for Spanish Verb Sense Disambiguation} % Your thesis title, this is used in the title and abstract, print it elsewhere with \ttitle
+\supervisor{PhD. Laura \textsc{Alonso Alemany}} % Your supervisor's name, this is used in the title page, print it elsewhere with \supname
+\examiner{} % Your examiner's name, this is not currently used anywhere in the template, print it elsewhere with \examname
+\degree{Doctor of Philosophy} % Your degree name, this is used in the title page and abstract, print it elsewhere with \degreename
+\author{Cristian \textsc{Cardellino}} % Your name, this is used in the title page and abstract, print it elsewhere with \authorname
+\addresses{} % Your address, this is not currently used anywhere in the template, print it elsewhere with \addressname
+
+\subject{Computer Sciences Sciences} % Your subject area, this is not currently used anywhere in the template, print it elsewhere with \subjectname
+\keywords{semi-supervised machine learning, natural language processing, word sense disambiguation} % Keywords for your thesis, this is not currently used anywhere in the template, print it elsewhere with \keywordnames
+\university{\href{https://www.unc.edu.ar/}{Universidad Nacional de C\'ordoba}} % Your university's name and URL, this is used in the title page and abstract, print it elsewhere with \univname
+\department{\href{https://cs.famaf.unc.edu.ar/}{Secci\'on de Ciencias de la Computaci\'on}} % Your department's name and URL, this is used in the title page and abstract, print it elsewhere with \deptname
+\group{\href{http://pln.famaf.unc.edu.ar/}{Grupo de Procesamiento de Lenguaje Natural}} % Your research group's name and URL, this is used in the title page, print it elsewhere with \groupname
+\faculty{\href{http://www.famaf.unc.edu.ar/}{Facultad de Matem\'atica, Astronom\'ia, F\'isica y Computaci\'on}} % Your faculty's name and URL, this is used in the title page and abstract, print it elsewhere with \facname
+
+\AtBeginDocument{
+  \hypersetup{pdftitle=\ttitle} % Set the PDF's title to your title
+  \hypersetup{pdfauthor=\authorname} % Set the PDF's author to your name
+  \hypersetup{pdfkeywords=\keywordnames} % Set the PDF's keywords to your keywords
+}
+
+\begin{document}
+
+\frontmatter % Use roman page numbering style (i, ii, iii, iv...) for the pre-content pages
+
+\pagestyle{plain} % Default to the plain heading style until the thesis style is called for the body content
+
+%----------------------------------------------------------------------------------------
+%	TITLE PAGE
+%----------------------------------------------------------------------------------------
+
+\begin{titlepage}
+\begin{center}
+
+{\scshape\LARGE \univname\\\facname\par}\vspace{0.5cm} % University name
+\includegraphics[scale=0.4]{images/logounc.jpg}\\[0.4cm] % University/department logo - uncomment to place it
+\textsc{\Large Doctoral Thesis}\\[0.2cm] % Thesis type
+
+\HRule \\[0.4cm] % Horizontal line
+{\huge \bfseries \ttitle\par}\vspace{0.4cm} % Thesis title
+\HRule \\[1cm] % Horizontal line
+ 
+\begin{minipage}[t]{0.4\textwidth}
+\begin{flushleft} \large
+\emph{Author:}\\
+\href{https://crscardellino.github.io}{\authorname} % Author name - remove the \href bracket to remove the link
+\end{flushleft}
+\end{minipage}
+\begin{minipage}[t]{0.4\textwidth}
+\begin{flushright} \large
+\emph{Supervisor:} \\
+\href{https://cs.famaf.unc.edu.ar/~laura/}{\supname} % Supervisor name - remove the \href bracket to remove the link  
+\end{flushright}
+\end{minipage}\\[1cm]
+
+\large \textit{A thesis submitted in fulfillment of the requirements\\ for the degree of \degreename}\\[0.2cm] % University requirement text
+\textit{in the}\\[0.2cm]
+\groupname\\\deptname
+
+{\large 20th April, 2018}\\[0.5cm] % Date
+
+\includegraphics[scale=0.75]{images/cc-by-sa.png}\\
+{\small This work is licensed under a 
+\href{http://creativecommons.org/licenses/by-sa/4.0/}
+	{Creative Commons Attribution-ShareAlike 4.0 International License}}
+ 
+\vfill
+\end{center}
+\end{titlepage}
+
+\cleardoublepage
+
+%----------------------------------------------------------------------------------------
+%	QUOTATION PAGE
+%----------------------------------------------------------------------------------------
+
+\vspace*{0.2\textheight}
+
+\noindent\enquote{\itshape The aim of a PhD's to ensure that no one, including
+your advisor, understands what you're doing after the first couple of
+years.}\bigbreak
+
+\hfill China Mi\'eville\\[0.5cm]
+
+\noindent\enquote{\itshape There is no knowledge that is not power.}\bigbreak
+
+\hfill Ralph Waldo Emerson
+
+%----------------------------------------------------------------------------------------
+%	ABSTRACT PAGE
+%----------------------------------------------------------------------------------------
+
+\begin{abstract}
+  \addchaptertocentry{\abstractname} % Add the abstract to the table of contents
+
+  \vspace{-1em}
+
+  This thesis explores the use of {\em semi-supervised learning techniques for
+  Spanish \vsd}. The objective is to study how information from unlabeled
+  sources, which are larger, can help a classifier trained from a small labeled
+  resource.
+
+  Word sense disambiguation is a crucial task for many applications, like
+  machine translation or information extraction. However, it is still an open
+  problem, specially \vsd, due to the inherent complexity of verb senses.
+  This, plus the fact that Spanish is a language with less resources than
+  English, makes Spanish \vsd~an interesting area of study to contribute.
+
+  First I obtain a thorough understanding of purely supervised models and their
+  weaknesses. I find that the main shortcomings of the supervised approach are
+  lack of coverage and tendency to overfit. I try to overcome these problems
+  with different semi-supervised techniques.
+
+  Then, I explore the use of {\em word embeddings} as unsupervised
+  representations within supervised classifiers. This approach is known as {\em
+  disjoint semi-supervised learning}: an unsupervised technique is used prior
+  to a supervised one to aid the latter. Word embeddings help to overcome lack
+  of coverage and tendency to overfit, even if at the expense of losing some
+  performance in other aspects, like accuracy or F1-score.
+
+  I continue with the exploration self-learning, a {\em joint semi-supervised
+  learning} algorithm that uses a supervised classifier, trained on an initial
+  labeled dataset, to select instances from a pool of unlabeled data. Using
+  some measure of certainty, it annotates those instances for which the
+  algorithm has the highest confidence and uses them to expand the labeled data
+  to re-train the supervised classifier. I found that self-learning suffers
+  strongly from unbalanced datasets. It amplifies the bias toward the most
+  frequent class, so the expected increase in coverage by adding new examples
+  to training is shaded because decision boundaries between classes are
+  blurred.
+
+  Complementary to self-learning, I explore {\em active learning}. This
+  approach uses a supervised model to select instances taken from a pool of
+  unlabeled data, based on the impact these will have in the model, and gives
+  them to a human expert to annotate. I show that information obtained via
+  active learning, although little in comparison, can outperform the
+  self-learning approach.
+
+  Finally, I explore {\em ladder networks}, a neural network which minimizes a
+  combined cost function. This cost function is a sum of a supervised cost
+  function and an unsupervised cost function, thus overcoming the tendency to
+  overfit of supervised models. Also, the method's performance is shown to be
+  comparable or better to the rest of methods presented on this thesis, making
+  the ladder network an interesting candidate for semi-supervised learning.
+  
+  \textsc{Classification (ACM CCS 2012)}
+
+  \begin{itemize}
+    \item \textbf{Computing methodologies$\sim$Semi-supervised learning settings}
+    \item \textbf{Computing methodologies$\sim$Natural language processing}
+    \item Computing methodologies$\sim$Artificial intelligence
+  \end{itemize}
+
+  \textsc{Keywords}
+
+  \begin{description}
+    \item{\textbf{English:}} Artificial intelligence -- Natural language
+    processing -- Word sense disambiguation -- Spanish verb sense
+    disambiguation -- Machine learning -- Semi-supervised learning --
+    Deep learning.
+    \item{\textbf{Spanish:}} Inteligencia artificial -- Procesamiento de lenguaje
+    natural -- Desambiguación de sentidos -- Desambiguación de verbos del
+    español -- Aprendizaje automático -- Aprendizaje semisupervisado --
+    Aprendizaje profundo.
+  \end{description}
+  
+  % TODO: Resumen en español
+ 
+\end{abstract}
+
+%----------------------------------------------------------------------------------------
+%	ACKNOWLEDGEMENTS
+%----------------------------------------------------------------------------------------
+
+\begin{acknowledgements}
+\addchaptertocentry{\acknowledgementname} % Add the acknowledgements to the table of contents
+
+  Esta tesis es fruto del trabajo y la ayuda de más gente que la que pueda 
+  nombrar en una sóla página. Pero haré lo posible para agradecer a todos los
+  que participaron en esta travesía.
+
+  Empezaré por mi familia, la que me vió crecer desde chico pero también esa
+  que formé. Mis viejos, Liliana y Oclides, que tanto me apoyaron y me bancaron
+  (y nunca dejaron de hacerlo). Ellos son los responsables de que haya elegido
+  este camino del estudio, porque desde muy chico me inculcaron la pasión por
+  el aprendizaje y el conocimiento, por la curiosidad y la imaginación. Fueron
+  mis padres los que me insistieron que la educación es el único camino a la
+  verdadera libertad, tanto física como metafísica. Me enseñaron la disciplina
+  de sentarme a estudiar y saber esforzarme para lograr mis objetivos. Gracias
+  a su educación tengo hoy en día la integridad con la que pude lograr mis
+  metas.  También le agradezco a mi hermano Fernando que, aunque de vez en
+  cuando peleamos, sé que en él siempre hay un oído confiable y una voz
+  razonable que me puede escuchar y aconsejar.  
+
+  A Vale y a Cami (y a la Pelu y al Tito), que me dieron una familia y con las
+  que he formado un hogar al cuál volver cada día, son la familia por la cuál
+  vale la pena mejorar cada día y buscar superarme más allá de mis límites.
+  Ellas que me soportan el día a día, en las buenas y las malas, siempre
+  preocupadas por que esté bien y que no me falte nada. Es por ellas que busco
+  todos los días ser la mejor versión de mi mismo, son mi razón para vivir y
+  nunca me van a alcanzar las palabras para agradecer todo el cariño que me han
+  dado y me dan cada día. Espero que esto sea el inicio de una nueva etapa que
+  pueda compartir con ellas y aprovechar lo que aprendí para devolverles a
+  ellas todo el afecto que merecen y más aún la vida y las oportunidades para
+  que ambas puedan lograr sus sueños. Gracias chicas, este trabajo está
+  dedicado a ustedes. También no quería dejar de agradecerles a mis suegros,
+  Esther y Jorge, que siempre, junto a mis viejos, nos han ayudado y brindado
+  consejos en esto nuevo para mi que es la vida con mi familia.
+
+  Agradezco a mis amigos, que a lo largo de mis años han sido muchos y muy
+  buenos.  Compañeros de historias y anécdotas inolvidables. Con los que he
+  vivido miles de situaciones entrañables y con los que compartí risas y buenos
+  momentos.  Juntarse con ellos y pasar un buen rato hablando, jugando o
+  simplemente matando el tiempo es algo que no tiene precio.  Tanto aquellos
+  viejos amigos de toda la vida que conozco desde pequeño como los excelentes
+  compañeros que conocí en mis años de facultad, es un privilegio haber
+  compartido con todos ustedes una etapa tan importante de mi vida. Gracias a
+  todos por su buena onda, muchas gracias de verdad.
+
+  Profesores y maestros, muchos más de los que puedo nombrar, desde el jardín
+  de infantes hasta la universidad, todos aquellos que me brindaron su
+  sabiduría y conocimiento. Gracias a todos por su esfuerzo, por brindarme las
+  herramientas para ser libre, puesto que sin el conocimiento la libertad es
+  simplemente una idea vacía.
+
+  A mis compañeros del doctorado, los muchachos de la oficina 272: José, Luis,
+  Mariano y Raúl, que me acompañaron en estos años, siempre dispuestos a dar
+  una mano en todo lo que podían y con los que siempre pasamos un buen momento
+  en las comilonas que hacemos. Gracias por todo muchachos, ha sido un honor
+  compartir con ustedes estos años de doctorado.
+
+  A mis colegas de la facultad, tanto los docentes como investigadores.
+  Especialmente a los miembros del grupo de procesamiento de lenguaje natural y
+  el grupo de terapia con el que siempre puedo contar para obtener buen
+  feedback sobre mi trabajo.
+
+  A los miembros del jurado de mis tesis de doctorado: Jorge, Marcelo y Paula.
+  Gracias por su tiempo, gracias por sus ganas y gracias por haber sido parte
+  de esto tan importante que fue mi tesis doctoral.
+
+  Por último quiero agradecer a mis dos compañeras de oficina y también de
+  investigación, que hacen el día a día en la facultad divertido, interesante y
+  genial. Mili, mi hermana académica, ha sido un privilegio tener a alguien tan
+  activa, alegre y positiva, siempre brindando consejos, siempre dispuesta a
+  debatir y otorgar su visión para ayudar a comprender estas cosas complejas
+  que estudiamos, una compañera de trabajo excelente con la que hemos logrado
+  sinergizar en varios proyectos tanto académicos como docentes, y una amiga
+  extraordinaria con quien puedo contar.
+
+  Y Laura, mi madre académica, mi supervisora y mentora en este viaje que ha
+  sido el doctorado. A vos te debo este logro más que a nadie, por apoyarme y
+  guiarme, por nunca bajar los brazos y estar siempre dispuesta a darme toda la
+  ayuda que necesitara, tanto en tus mejores como en tus peores momentos. Nunca
+  me impusiste tu visión o tu agenda y siempre me animaste a seguir adelante,
+  cualquiera fuera el tema de investigación que quisiera explorar. Más allá de
+  eso siempre te las arreglaste para darme los contactos y las herramientas
+  para avanzar profesionalmente y lograr todos mis objetivos. Es gracias a vos
+  que logré formarme como lo hice. Fue mi privilegio y mi honor ser tu
+  doctorando. Muchas gracias por todo Laura.
+
+\end{acknowledgements}
+
+%----------------------------------------------------------------------------------------
+%	LIST OF CONTENTS/FIGURES/TABLES PAGES
+%----------------------------------------------------------------------------------------
+
+\tableofcontents % Prints the main table of contents
+
+\listoffigures % Prints the list of figures
+
+% \listoftables % Prints the list of tables
+
+%----------------------------------------------------------------------------------------
+%	ABBREVIATIONS
+%----------------------------------------------------------------------------------------
+
+% \begin{abbreviations}{ll} % Include a list of abbreviations (a table of two columns)
+% 
+% \textbf{LAH} & \textbf{L}ist \textbf{A}bbreviations \textbf{H}ere\\
+% \textbf{WSF} & \textbf{W}hat (it) \textbf{S}tands \textbf{F}or\\
+% 
+% \end{abbreviations}
+
+%----------------------------------------------------------------------------------------
+%	PHYSICAL CONSTANTS/OTHER DEFINITIONS
+%----------------------------------------------------------------------------------------
+
+% \begin{constants}{lr@{${}={}$}l} % The list of physical constants is a three column table
+% 
+% % The \SI{}{} command is provided by the siunitx package, see its documentation for instructions on how to use it
+% 
+% Speed of Light & $c_{0}$ & \SI{2.99792458e8}{\meter\per\second} (exact)\\
+% %Constant Name & $Symbol$ & $Constant Value$ with units\\
+% 
+% \end{constants}
+
+%----------------------------------------------------------------------------------------
+%	SYMBOLS
+%----------------------------------------------------------------------------------------
+
+% \begin{symbols}{lll} % Include a list of Symbols (a three column table)
+% 
+% $a$ & distance & \si{\meter} \\
+% $P$ & power & \si{\watt} (\si{\joule\per\second}) \\
+% %Symbol & Name & Unit \\
+% 
+% \addlinespace % Gap to separate the Roman symbols from the Greek
+% 
+% $\omega$ & angular frequency & \si{\radian} \\
+% 
+% \end{symbols}
+
+%----------------------------------------------------------------------------------------
+%	DEDICATION
+%----------------------------------------------------------------------------------------
+
+\dedicatory{Dedicado a toda mi famila\ldots\\Gracias por todo\ldots} 
+
+%----------------------------------------------------------------------------------------
+%	THESIS CONTENT - CHAPTERS
+%----------------------------------------------------------------------------------------
+
+\mainmatter % Begin numeric (1,2,3...) page numbering
+
+\pagestyle{thesis} % Return the page headers back to the "thesis" style
+
+\part{Preliminaries} 
+
+\chapter{Introduction}\label{chapter:introduction}
+\input{chapters/01_introduction}
+
+\chapter{Machine Learning Background}\label{chapter:general_background}
+\input{chapters/02_general_background}
+
+\chapter{Natural Language Processing
+Background}\label{chapter:domain_background}
+\input{chapters/03_domain_background}
+
+\chapter{Supervised Learning for Verb Sense
+Disambiguation}\label{chapter:supervised}
+\input{chapters/04_supervised_learning}
+
+\part{Disjoint Semi-Supervised Methods} 
+
+\chapter{Word Embeddings}\label{chapter:embeddings}
+\input{chapters/05_word_embeddings}
+
+\part{Joint Semi-Supervised Methods}
+
+\chapter{Self-Learning}\label{chapter:self-learning}
+\input{chapters/06_self_learning}
+
+\chapter{Active Learning}\label{chapter:active}
+\input{chapters/07_active_learning}
+
+\chapter{Ladder Networks}\label{chapter:ladder}
+\input{chapters/08_ladder_networks}
+
+\part{Conclusions}\label{chapter:conclusions}
+
+\chapter{Conclusions}
+\input{chapters/09_conclusions}
+
+%----------------------------------------------------------------------------------------
+%	THESIS CONTENT - APPENDICES
+%----------------------------------------------------------------------------------------
+
+\appendix % Cue to tell LaTeX that the following "chapters" are Appendices
+
+% Include the appendices of the thesis as separate files from the Appendices folder
+% Uncomment the lines as you write the Appendices
+
+%\include{Appendices/AppendixA}
+%\include{Appendices/AppendixB}
+%\include{Appendices/AppendixC}
+
+%----------------------------------------------------------------------------------------
+%	BIBLIOGRAPHY
+%----------------------------------------------------------------------------------------
+
+\bibliographystyle{apalike}
+\bibliography{thesis_bibliography}
+
+%----------------------------------------------------------------------------------------
+
+\end{document}  

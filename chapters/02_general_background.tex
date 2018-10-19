@@ -1,0 +1,185 @@
+The core of this thesis' work relies on two main areas: {\bf machine learning}
+and {\bf \nlp}. More specifically, this thesis follows the application of
+semi-supervised learning techniques, a subarea of machine learning, for {\bf
+  Spanish \vsd}, a subarea of \nlp. This chapter reviews {\em machine
+learning}, specifically semi-supervised learning. The chapter starts with a set
+of basic definitions. It continues by revising the two wrapper algorithms:
+self-learning and active learning. And finishes with a brief introduction to
+the ladder network algorithm.
+
+\section{Fundamental concepts}\label{sec:general_background:fundamental}
+
+Tom Mitchell \cite{mitchell1997machine} defines {\bf machine learning} as ``the
+field of artificial intelligence concerned with the question of how to
+construct systems that automatically improve based on experience''. The
+experience, in this case, is acquired through the analysis of data with the
+final objective to generate a model that works on specific tasks. Examples of
+these tasks can be systems for anomaly detection, like fraudulent credit card
+transactions; recommender systems for movies, music, books, etc.; or computer
+vision.
+
+Machine learning is divided in three main areas: {\em supervised learning},
+{\em unsupervised learning}, and {\em reinforcement learning}. As this work
+is mostly based on supervised learning techniques with aid of unsupervised
+learning ones, I will go ahead and describe them.
+
+{\bf Supervised learning} has the objective to build a predictive model from
+labeled data. {\bf Labeled data} consists in a set of {\em annotated examples},
+where each is a pair of input data, generally a vector; and output data which,
+depending on the task, can be a real number, for regression, or a categorical
+value, for classification. E.g. spam filtering where an email is either
+classified as spam or not. In more formal terms, a supervised learning
+algorithm is a mapping from input $\mathbf{x}$ to output $\mathbf{y}$ with
+target $t$, trained from a set of $N$ pairs: $\{(\textbf{x}(n), t(n)) | 1 \leq
+n \leq N\}$.
+
+{\bf Unsupervised learning} has the objective to describe or discover a hidden
+structure from unlabeled data. {\bf Unlabeled data} consists in a set of {\em
+unannotated examples}: data without any information about belonging to some
+class or having an associated value. E.g. clustering of news articles. In more
+formal terms, an unsupervised learning algorithm is the inference of a function
+that describes some pattern or structure from a set of unlabeled data points:
+$\{\textbf{x}(m) | 1 \leq m \leq M\}$.
+
+There is a set of techniques which are in-between supervised and unsupervised
+machine learning: {\bf semi-supervised machine learning}. These are the
+techniques I mostly explore in this thesis. Zhu and Goldberg
+\cite{zhu2009introduction} describe it as ``the task consisting in using both
+annotated and unannotated examples in order to better learn an otherwise
+supervised or unsupervised task''. For the objective of this thesis, I will
+refer to semi-supervised techniques which explore the use of unlabeled data in
+aiding a supervised model. In more formal terms, given a supervised model from
+a training set of pairs $\{\textbf{x}(n), t(n) | 1 \leq n \leq N\}$.
+Semi-supervised learning, in the scope of this thesis, studies how auxiliary
+unlabeled data $\{\textbf{x}(n) | N + 1 \leq n \leq M\}$ can help in training
+the supervised model. It is often the case that labeled data is little whereas
+unlabeled data is plentiful, that is $N \ll M$. The idea is that unlabeled data
+can help expanding the supervised model as it has more information than a
+labeled dataset regarding the instances (since it has more). That underlying
+information helps expand the information present in the model. The information
+can be synthesized as new features for a class, latent variables coming from
+the representations, stronger associations between features and classes, etc.
+
+In this work I explore two types of semi-supervised learning: {\em disjoint
+semi-supervised learning} and {\em joint semi-supervised learning}. In {\bf
+disjoint semi-supervised learning} the supervised and unsupervised steps are
+trained separately, and then the information from one is fed into the other to
+improve it \cite{Weston2008}. E.g the use of {\em word embeddings} trained on
+an unlabeled corpus for a supervised task. In contrast {\bf joint learning}
+both supervised and unsupervised data affect the model training procedure
+simultaneously. There can be another subdivision in joint learning methods.
+Joint learning based on {\em wrapper} algorithms starts from a supervised
+classifier trained on labeled data, and uses the information of that model to
+expand it with feedback from unlabeled data (e.g. an {\em active learning}
+approach which makes an ``intelligent'' selection of candidates gathered from
+an unsupervised corpus to manually annotate and subsequently use to feed a
+supervised model). Other joint learning algorithms use both the labeled and
+unlabeled datasets in the training procedure of the algorithm ( e.g. {\em
+ladder networks} learn by the minimization of a joint objective function,
+composed by a supervised and an unsupervised target).
+
+A categorization that can be done also in semi-supervised methods, but more
+generally in supervised methods as well is: {\em shallow learning} and {\em
+deep learning}. {\bf Shallow learning} can be described as a process that
+tries to learn by approximation. It is rather a memorization rather than an
+understanding of underlying concepts or structures of the data. {\bf Deep
+learning} is a machine learning approach whose objective is to allow computers
+to learn from experience and understand the world in terms of a hierarchy of
+concepts, with each concept defined in terms of its relation to simple
+concepts. By gathering knowledge from experience, this approach avoids the need
+for human operators to formally specify all of the knowledge that the computer
+needs. The hierarchy of concepts allows the computer to learn complicated
+concepts by building them out of simpler ones
+\cite{Goodfellow-et-al-2016-Book}. The most basic deep learning model is a {\bf
+multilayer perceptron}, a feed-forward artificial neural network model, which
+maps a set of input values to a set of output values. 
+
+\section{Relevant work}\label{sec:general_background:relevant}
+
+\subsection{Disjoint Semi-supervised Learning}
+
+{\bf Disjoint semi-supervised learning} was defined by Weston et al.
+\cite{Weston2008}, as the use of word embeddings to aid deep learning tasks in
+\nlp. The concept can be understood as the use of a resource or an auxiliary
+task that is obtained from unlabeled data (e.g. word embeddings) and how it
+aids on a supervised task trained on labeled data that is disjoint the
+unlabeled data of the auxiliary task. As it was defined, there are no other
+uses of the term but inside the area of \nlp. Thus, I will discuss it further
+on Chapter \ref{chapter:domain_background}.
+
+\subsection{Self-learning}\label{sec:general_background:self-learning}
+
+{\bf Self-learning} (also known as {\em self-training}, {\em self-teaching}, or
+{\em bootstrapping}) is a commonly used technique for semi-supervised learning.
+It is probably the earliest idea about using unlabeled data in classification
+\cite{Chapelle:2010:SL:1841234}. This is a {\em wrapper} algorithm that
+repeatedly uses a supervised learning method. The initial classifier is first
+trained with a seed labeled dataset (generally small) and then is used to
+classify data from an unlabeled pool of data. Generally the data points on
+which the classifier is more confident about alongside their predicted labels
+are added to the training set. The classifier is re-trained and the procedure
+repeated. Note that the classifier uses its own predictions to teach itself
+\cite{Zhu05}, thus in this scheme is possible for the classification mistake to
+reinforce itself. There are different methods to try and control this
+phenomenon. Scudder \cite{Scudder:2006:PEA:2263254.2267291} presents an
+untaught adaptive pattern-recognition machine made from a simple taught
+pattern-recognition machine for detecting an unknown, fixed, randomly occurring
+pattern (derived using a Bayes' approach) and its probability of error is
+analyzed by using its own output instead of a teacher. In machine vision,
+Rosenberg et al. \cite{4129456} apply self-training to object detection systems
+from images, and show the semi-supervised technique compares favorably with a
+state-of-the-art detector. Culp and Michailidis
+\cite{doi:10.1198/106186008X344748} offer an iterative self-learning algorithm
+that extends a learner from a supervised setting to a semi-supervised one. They
+analyze the convergence properties of the algorithm, as self-learning is a hard
+algorithm to analyze in general.
+
+\subsection{Active learning}\label{sec:general_background:active}
+
+{\bf Active learning} is another example of a joint learning task. It is also a
+wrapper algorithm which trains from an initial seed labeled dataset, but uses
+another approach to incorporate instances from the unlabeled dataset. The key
+hypothesis is that if the learning algorithm is allowed to choose the data from
+which it learns it will perform better with less training \cite{settles.tr09}.
+The algorithm inspects a set of unlabeled examples, and ranks them by how much
+they could improve the algorithm's performance if they were labeled. Then, a
+human annotator (called {\em oracle} or {\em domain expert}) labels the highest
+ranking examples, which are then added to the set of training examples from
+which the algorithm infers its classification model, and the loop begins again.
+In some active learning approaches, the oracle may annotate features describing
+instances, and not (only) instances themselves. This latter approach provides
+even faster learning in some cases \cite{druck.emnlp09}.
+
+Different strategies have been applied to determine the most useful instances
+to be annotated by the oracle, including expected model change, expected error
+reduction or density-weighted methods \cite{settles.tr09}. The most intuitive
+and popular strategy is {\bf uncertainty sampling}
+\cite{Lewis94heterogeneousuncertainty}, which chooses those instances or
+features where the algorithm is most uncertain, from a large set of
+automatically labeled data. As {\em self-training}, this is also a wrapper
+method, being the supervised algorithm to do the classification step chosen
+openly. This strategy has been successfully applied to Information Extraction
+tasks \cite{Culotta:2005:RLE:1619410.1619452,settles.emnlp08}. Uncertainty can
+be calculated by different methods depending on the learning algorithm.
+Specially popular are methods exploiting the margins of Support Vector Machines
+(SVM), as in \cite{Tong:2002:SVM:944790.944793}. The simplest methods exploit
+directly the certainty that the classifier provides for each instance that is
+classified automatically.
+
+\subsection{Ladder Networks}
+
+The {\bf ladder network} is the last semi-supervised learning technique I will
+revise in this work. It is also a joint learning technique. But unlike
+self-learning or active learning, it is not a wrapper algorithm, but rather an
+special architecture for an artificial neural network. The semi-supervised
+approach studied by the ladder network is recent, being introduced in the work
+of Rasmus et al. \cite{Rasmus:2015aa}. I will further discuss this work and the
+details of the ladder network algorithm in Chapter \ref{chapter:ladder}, since
+the explanation of it is core of this thesis's work. The work of Rasmus extends
+the original work by Valpola \cite{Valpola:2014aa} which introduces the concept
+of ladder networks for unsupervised learning. The work of Rasmus that I study
+in this thesis uses the basis of another work by Rasmus et al.
+\cite{Rasmus:2015ab} which adds lateral connections to denoising autoencoders
+to help supervised learning (e.g. classification) with an unsupervised learning
+auxiliary task (e.g. reconstruction of input). The combination of works derived
+in the design of a ladder network as a semi-supervised algorithm.
