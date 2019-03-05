@@ -258,9 +258,8 @@ years.}\bigbreak
   \vspace{-1em}
 
   This thesis explores the use of {\em semi-supervised learning techniques for
-  Spanish \vsd}. The objective is to study how information from unlabeled
-  sources, which are larger, can help a classifier trained from a small labeled
-  resource.
+  Spanish \vsd}. The objective is to study how can information from unlabeled
+  sources help a classifier trained from a small labeled resource.
 
   Word sense disambiguation is a crucial task for many applications, like
   machine translation or information extraction. However, it is still an open
@@ -268,28 +267,30 @@ years.}\bigbreak
   This, plus the fact that Spanish is a language with less resources than
   English, makes Spanish \vsd~an interesting area of study to contribute.
 
-  First I obtain a thorough understanding of purely supervised models and their
-  weaknesses. I find that the main shortcomings of the supervised approach are
-  lack of coverage and tendency to overfit. I try to overcome these problems
-  with different semi-supervised techniques.
+  First I explore of purely supervised models to obtain a thorough
+  understanding of how they work and what are their weaknesses. I find that the
+  main shortcomings of the supervised approach are lack of coverage and
+  tendency to overfit, as I explain in the corresponding chapter. I try to
+  overcome these problems with different semi-supervised techniques.
 
-  Then, I explore the use of {\em word embeddings} as unsupervised
-  representations within supervised classifiers. This approach is known as {\em
-  disjoint semi-supervised learning}: an unsupervised technique is used prior
-  to a supervised one to aid the latter. Word embeddings help to overcome lack
-  of coverage and tendency to overfit, even if at the expense of losing some
-  performance in other aspects, like accuracy or F1-score.
+  I continue this work by exploring the use of {\em word embeddings} as
+  unsupervised representations within supervised classifiers. This approach is
+  known as {\em disjoint semi-supervised learning}: an unsupervised technique
+  is used prior to a supervised one to aid the latter. Word embeddings
+  certainly help to overcome lack of coverage and tendency to overfit, but at
+  the expense of losing some performance in other aspects, like accuracy or
+  F1-score.
 
   I continue with the exploration self-learning, a {\em joint semi-supervised
   learning} algorithm that uses a supervised classifier, trained on an initial
   labeled dataset, to select instances from a pool of unlabeled data. Using
-  some measure of certainty, it annotates those instances for which the
-  algorithm has the highest confidence and uses them to expand the labeled data
-  to re-train the supervised classifier. I found that self-learning suffers
-  strongly from unbalanced datasets. It amplifies the bias toward the most
-  frequent class, so the expected increase in coverage by adding new examples
-  to training is shaded because decision boundaries between classes are
-  blurred.
+  some measure of certainty, it annotates those unlabeled examples for which
+  the algorithm has the highest confidence and uses them to expand the labeled
+  data to re-train the supervised classifier. I found that self-learning
+  suffers strongly from unbalanced datasets. It amplifies the bias toward the
+  most frequent class, so the expected increase in coverage by adding new
+  examples to training is shaded because decision boundaries between classes
+  are blurred.
 
   Complementary to self-learning, I explore {\em active learning}. This
   approach uses a supervised model to select instances taken from a pool of
@@ -300,11 +301,74 @@ years.}\bigbreak
 
   Finally, I explore {\em ladder networks}, a neural network which minimizes a
   combined cost function. This cost function is a sum of a supervised cost
-  function and an unsupervised cost function, thus overcoming the tendency to
-  overfit of supervised models. Also, the method's performance is shown to be
-  comparable or better to the rest of methods presented on this thesis, making
-  the ladder network an interesting candidate for semi-supervised learning.
-  
+  function and an unsupervised cost function, which helps to regularize the
+  final model, and thus overcomes the tendency to overfit of supervised models.
+  Also, the method's performance is shown to be comparable or better to the
+  rest of methods presented on this thesis, making the ladder network an
+  interesting candidate for semi-supervised learning.
+
+  \vspace{1em}
+
+  \textsc{Espa\~nol}
+
+  Esta tesis explora el uso de {\em técnicas semi-supervisadas para la
+  desambiguación de sentidos verbales del español}. El objetivo es estudiar
+  cómo la información obtenida de distintas fuentes no anotadas puede ayudar a
+  un clasificador entrenado desde un recurso anotado pequeño.
+
+  La desambiguación de sentidos de palabras es una tarea crucial para muchas
+  aplicaciones, como la traducción automática o la extracción de información.
+  Sin embargo, todavía es un problema abierto, especialmente la desambiguación
+  de sentidos verbales, debido a la complejidad inherente de los sentidos
+  verbales. Esto, sumado al hecho de que el español es un lenguaje con menos
+  recursos disponibles que el inglés, hace de la desambiguación de sentidos
+  verbales del español un área de estudio interesante sobre la cuál contribuir.
+
+  En primer lugar, exploro modelos puramente supervisado para obtener un
+  entendimiento profundo de cómo es que funcionan y cuáles son sus debilidades.
+  Encuentro que los principales problemas de los métodos supervisados son la
+  falta de cobertura y la tendencia al sobreajuste. Intento resolver estos
+  problemas con diferentes técnicas semi-supervisadas.
+
+  Continúo este trabajo explorando el uso de {\em vectores densos de palabras}
+  como una representación no supervisada dentro de los clasificadores. Este
+  enfoque es conocido como {\em aprendizaje semi-supervisado disjunto}: una
+  técnica no supervisada se usa previamente a una técnica supervisada para
+  ayudar a esta última. Los vectores densos de palabras ciertamente ayudan a
+  superar la falta de cobertura y la tendencia al sobreajuste, pero lo hacen a
+  expensas de perder cierto rendimiento en otros aspectos, como la exactitud o
+  la métrica F1.
+
+  Sigo con la exploración del auto-aprendizaje, un algoritmo de {\em
+  aprendizaje semi-supervisado conjunto} que utiliza un clasificador
+  supervisado, entrenado en un conjunto de datos inicial, para seleccionar
+  instancias de un conjunto de datos no anotados. Usando alguna medida de
+  certeza, anota dichos ejemplos no anotados para los cuáles el algoritmo tiene
+  la confianza más alta y los utiliza para expandir los datos anotados y
+  re-entrenar el clasificador supervisado.  Encuentro que el auto-aprendizaje
+  sufre mucho los conjuntos de datos no balanceados. Amplifica el sesgo hacia
+  la clase más frecuente, por lo que el aumento esperado en la cobertura
+  (obtenido de nuevos ejemplos agregados al conjunto de datos de entrenamiento)
+  es oscurecido porque las fronteras de decisión entre clases son borrosas.
+
+  Complementariamente al auto-aprendizaje, exploro el {\em aprendizaje activo}.
+  Este enfoque utiliza un modelo supervisado para seleccionar instancias
+  tomadas de un conjunto de datos no anotados, basado en el impacto que dichas
+  instancias tendrán sobre el modelo, y se las brina a un experto humano para
+  anotar. Muestro que la información obtenida mediante aprendizaje activo,
+  aunque poca en comparación, puede superar el enfoque del auto-aprendizaje.
+
+  Finalmente, exploro las {\em redes neuronales en escalera}, una variante de
+  redes neuronales que minimiza una función de coste combinada. Esta función de
+  coste es una suma de una función de costo supervisada y una función de costo
+  no supervisada, lo que ayuda a regularizar el modelo final, y por lo tanto
+  salva la tendencia al sobreajuste de modelos supervisados. Además, el
+  desempeño de este método es comparable o mejor al resto de los métodos
+  presentados en esta tesis, haciendo de las redes en escalera un candidato muy
+  interesante a la hora de hacer aprendizaje automático semi-supervisado.
+
+  \vspace{1em}
+
   \textsc{Classification (ACM CCS 2012)}
 
   \begin{itemize}
@@ -317,17 +381,14 @@ years.}\bigbreak
 
   \begin{description}
     \item{\textbf{English:}} Artificial intelligence -- Natural language
-    processing -- Word sense disambiguation -- Spanish verb sense
-    disambiguation -- Machine learning -- Semi-supervised learning --
-    Deep learning.
-    \item{\textbf{Spanish:}} Inteligencia artificial -- Procesamiento de lenguaje
-    natural -- Desambiguación de sentidos -- Desambiguación de verbos del
-    español -- Aprendizaje automático -- Aprendizaje semisupervisado --
-    Aprendizaje profundo.
+      processing -- Word sense disambiguation -- Spanish verb sense
+      disambiguation -- Machine learning -- Semi-supervised learning -- Deep
+      learning.
+    \item{\textbf{Spanish:}} Inteligencia artificial -- Procesamiento de
+      lenguaje natural -- Desambiguación de sentidos -- Desambiguación de
+      verbos del español -- Aprendizaje automático -- Aprendizaje
+      semisupervisado -- Aprendizaje profundo.
   \end{description}
-  
-  % TODO: Resumen en español
- 
 \end{abstract}
 
 %----------------------------------------------------------------------------------------
