@@ -2,65 +2,77 @@
 
 This thesis explores the use of semi-supervised learning techniques for Spanish
 \vsd. The objective is to study how adding information from unlabeled sources,
-which are larger, can help a classifier learned from a labeled but small
-resource, as is the disambiguated corpus for Spanish verbs SenSem
+which have more data available, helps a classifier learned from a labeled, but
+small, resource. The selected labelled resource for the task is the
+disambiguated corpus for Spanish verbs {\em SenSem}
 \cite{alonso-etal-07-sensem}.
 
-{\em Supervised machine learning} is the task that infers a function that maps
-unlabeled data to a label. This function is inferred from labeled data, which
-have been manually associated to a label. This is also known as modeling of the
-data.  This function can be used then to find new mappings given unseen
-examples. However, supervised learning models are limited by the amount of
-labeled data available. The more labeled data a model has, the better the
-performance of the model. Right now {\em deep learning} requires large amounts
-of data in order to generate good models. As data labeling is a task requiring
-human labor, having large enough datasets is generally expensive. This is also
-dependent on the task. Some tasks are relatively easy for any person to label
-(e.g. see if a picture has a cat in it). For other tasks, labeled data is more
-difficult to obtain, as it requires that the human annotators are domain
-experts (e.g. a lawyer, a physician, a linguist, etc.).
+\subsection{Supervised, unsupervised and semi-supervised\\machine learning}
+
+{\em Supervised machine learning} is a task that infers a function that maps
+some data to a label. The function is inferred from labeled data, that has been
+manually associated to a label. This function is, after inferred, used to find
+new mappings given unseen examples. The task of finding the function is also
+known as data modelling, and the final function is called a model of the data.
+
+However, supervised learning models are limited by the amount of labeled data
+available. The more labeled data there is, the better the performance of a
+model. Right now {\em deep learning} requires large amounts of data in order to
+generate good models. However, as data labeling is a task requiring human
+labor, having large enough datasets is, generally, expensive. This also depends
+on the task. Some tasks are relatively easy for any person to label (e.g. see
+if a picture has a cat in it). For other tasks, labeled data is more difficult
+to obtain, as it requires that the human annotators are domain experts (e.g. a
+lawyer, a physician, a linguist, etc.).
 
 {\em Unsupervised machine learning} is the task that tries to find patterns or
-hidden structures in unlabeled data. Because the data are unlabeled, these
-patterns cannot be evaluated based on accuracy. Unsupervised machine learning
-is more centered in the exploration of the data rather than finding a function
-useful for a particular prediction task, like supervised learning. The
-advantage of unsupervised learning is the vast amount of data available. As the
-data is not annotated, it makes it cheap to gather datasets.
+hidden structures from unlabeled data. Because the data is unlabeled, these
+patterns cannot be evaluated based on something like accuracy. Unsupervised
+machine learning is more centered in the exploration of the data rather than
+finding a function useful for a particular prediction task, unlike supervised
+learning. The advantage of unsupervised learning is the vast amount of data
+available. As the data is not annotated, it makes it cheap to create datasets.
 
-{\em Semi-supervised learning} is an approach in between. A semi-supervised
-algorithm makes use of both labeled and unlabeled data in order to better infer
-a function for a specific task (whether it is supervised or not). In this case,
-given enough data, a good semi-supervised learning technique can improve on the
-purely supervised or unsupervised algorithm it is using. In particular, it has
-the advantage of having a way to evaluate it in means of accuracy or other
-metrics, but also has the advantage of being able to expand its models based on
-the cheap available unlabeled datasets. The objective of this thesis is to
-explore different semi-supervised models in order to improve on a supervised
-task which has the properties stated above: lack of large labeled datasets, but
-availability of large unlabeled datasets.
+{\em Semi-supervised learning} is an approach in-between the previous two. A
+semi-supervised algorithm makes use of both labeled and unlabeled data in order
+to better infer a function for a specific task (whether it is supervised or
+not). In this case, given enough data, a good semi-supervised learning
+technique can improve on a supervised or an unsupervised model. In particular,
+it has the advantage of having a way to evaluate it in means of accuracy or
+some other metrics, but also has the advantage of being able to expand a model
+based on the cheap available unlabeled data.
 
-{\em Natural language processing} helps humans interact with machines using the
-human language, instead of a formal language. The main challenge of the area is
-the ambiguity of human language. But this is not the only problem. Human
-language, as many other social phenomena, has a Zipfian distribution
+The objective of this thesis is to explore different semi-supervised models in
+order to improve a supervised task which has the properties stated above: lack
+of large labeled data, but availability of large unlabeled data.
+
+\subsection{Natural language processing and word sense disambiguation}
+
+{\em Natural language processing} helps humans interact with machines using a
+human language (e.g. Spanish, English, etc.), instead of a formal language
+(e.g. first order logic). The main challenge of the area is the ambiguity of
+human language. But this is not the only problem.
+
+Human language, as many other social phenomena, has a Zipfian distribution
 \cite{j:zpf}, which is an exponential distribution. This law states that given
 a corpus of natural language utterances, the frequency of any word is inversely
 proportional to its rank in the frequency table. Thus, the most frequent word
 will occur approximately twice as often as the second most frequent word, three
 times as often as the third most frequent word, etc. In the case of
-classification tasks of natural language processing, the classes are unbalanced
-following Zipf's law, thus very few classes occur very often, and the rest of
-them have few to no occurrences in the labeled dataset. As with everything, the
-availability of good models for natural language tasks depends on the data
-available for that task. In particular, different languages have different
-amount of data, thus making it possible to obtain better or worse models. E.g,
-English is language with very good models because of the amount of resources;
-other languages are harder to work with because there are less available
-resources.
+classification tasks for natural language processing, the classes are, most of
+the time, unbalanced following Zipf's law. This means that very few classes
+occur very often, and the rest of them have few to no occurrences in a labeled
+dataset. 
+
+As with everything, the possibility of training good models for natural
+language tasks depends on the data available for the tasks. In particular,
+different languages have different amounts of data, thus making it possible to
+obtain better or worse models. E.g, English is a language with very good models
+because of the amount of the resources available, other languages are harder to
+work with because there are less resources available.
 
 {\em Word sense disambiguation} is an intermediate task of natural language
-processing which, as it names indicates, given a word and its context tries to
+processing which, as it names indicates, given a word and its context, tries to
 discriminate the meaning of that word among an inventory of pre-determined
 senses. E.g. the noun ``granada'' can be a fruit or a weapon depending on the
 context it is used in. A sub-task of \wsd~is {\em \vsd}, which is crucial for a
@@ -68,10 +80,12 @@ deep language processing tasks, especially those that could benefit from
 information about relations between participants provided by the verb, like
 machine translation, question answering or information extraction. E.g., in
 machine translation, sense disambiguation is needed to determine the correct
-translation of a word, and also the transformations needed in the syntactical
-structure of the sentence. Examples \ref{example:hacer:1} and
+translation of a word, and also the transformations are needed in the
+syntactical structure of the sentence. Examples \ref{example:hacer:1} and
 \ref{example:hacer:2} shows how the different senses can change the translation
 of the same word.
+
+\clearpage
 
 \begin{example}\label{example:hacer:1}
   \begin{itemize}
@@ -87,7 +101,7 @@ of the same word.
   \end{itemize}
 \end{example}
 
-Another example, for question answering over linked data \vsd~is needed to
+Another example: for question answering over linked data \vsd~is needed to
 determine the sense of a verb and the logical relations between the
 participants to access the adequate nodes and edges in an ontology. Examples
 \ref{example:acceder:1} and \ref{example:acceder:2} show how the same verb has
@@ -106,17 +120,17 @@ participants it connects.
   \end{itemize}
 \end{example}
 
-Finally, an information extraction task like relation extraction where \vsd~is
-needed to disambiguate those relationships, generally represented as verbs in a
-unstructured text.
+Finally, in an information extraction task like relation extraction, \vsd~is
+needed to disambiguate those relationships, generally represented as verbs in
+an unstructured text.
 
 However, \vsd~is a highly difficult task, that achieves even lower precision
 rates than \wsd~for other morphosyntactic categories (nouns, adjectives). This
 is arguably due to the inherent complexity of verb senses and the fact that
 their meaning is more pervasive than that of nouns, thus making it more
-difficult to discretize \cite{chen2009improving}.  Find below a detailed
-example of verb sense ambiguity for the lemma {\emph hablar}, with five senses
-in the SenSem lexicon. This can be seen in example \ref{example:hablar:1}.
+difficult to discretize \cite{chen2009improving}. Find below a detailed example
+of verb sense ambiguity for the lemma {\emph hablar}, with five senses in the
+SenSem lexicon. This can be seen in example \ref{example:hablar:1}.
 
 \begin{example}\label{example:hablar:1}
   \begin{itemize}
